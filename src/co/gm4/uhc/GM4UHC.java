@@ -1,7 +1,9 @@
 package co.gm4.uhc;
 
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import co.gm4.uhc.gameplay.PotionBanListener;
 import co.gm4.uhc.team.TeamManager;
 
 /**
@@ -17,6 +19,9 @@ public class GM4UHC extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		saveDefaultConfig();
+		
+		PluginManager pm = getServer().getPluginManager();
+		pm.registerEvents(new PotionBanListener(), this);
 
 		System.out.println("[GM4UHC] plugin has been enabled!");
 	}
