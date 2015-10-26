@@ -9,6 +9,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import co.gm4.uhc.GM4UHC;
 import co.gm4.uhc.Permission;
+import co.gm4.uhc.Util;
 import co.gm4.uhc.team.Team;
 
 /**
@@ -38,7 +39,15 @@ public class ChatListener implements Listener {
 			return;
 		}
 
-		// Determine player colour.
+		// Check caps lock
+		float allowed = (float)plugin.getConfig().getDouble("chat.caps-allowed");
+		int capIgnoreLength = plugin.getConfig().getInt("chat.caps-ignore-length");
+		if (Util.analyseCaps(message) > allowed && message.length() > capIgnoreLength) {
+			message = message.toLowerCase();
+			player.sendMessage(Broadcast.NOTIFICATION + "Please don't spam capitals!");
+		}
+
+		// Modify message colours and format
 		Team team = plugin.getTeamManager().getAsyncTeamByPlayer(player);
 		ChatColor color = null;
 		if (team == null) {
@@ -49,7 +58,6 @@ public class ChatListener implements Listener {
 			color = team.getAsyncColour();
 		}
 
-		// Change chat message
 		event.setCancelled(true);
 
 		String newMessage = "";
@@ -71,7 +79,18 @@ public class ChatListener implements Listener {
 			newMessage = color + player.getName() + ChatColor.GRAY + ": " + message;
 		}
 
-		Bukkit.broadcastMessage(newMessage);
+		// Send to all players not silencing.
+		if (mod) {
+			Bukkit.broadcastMessage(newMessage);
+		}
+		else {
+			for (Player p : Bukkit.getOnlinePlayers()) {
+				if (!plugin.getSilence().isSilenced(p) || message.contains(p.getName())) {
+					p.sendMessage(newMessage);
+				}
+			}
+			Bukkit.getConsoleSender().sendMessage(newMessage);
+		}
 	}
 
 }

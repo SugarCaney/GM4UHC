@@ -24,4 +24,29 @@ public class Util {
 		return sb.toString();
 	}
 
+	/**
+	 * Checks how many capital letters a given string contains and calculates
+	 * the percentage.
+	 * <p>
+	 * Ignoring spaces.
+	 * 
+	 * @param string
+	 *            The string to analyse.
+	 * @return A value between <i>0</i> (no caps) and <i>1</i> (all caps).
+	 */
+	public static float analyseCaps(String string) {
+		String trimmed = string.replace(" ", "");
+		float length = trimmed.length();
+		float caps = 0;
+
+		for (char c : trimmed.toCharArray()) {
+			String s = c + "";
+			if (s.matches("[A-Z]")) {
+				caps++;
+			}
+		}
+
+		return caps / length;
+	}
+
 }

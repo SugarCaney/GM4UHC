@@ -7,6 +7,7 @@ import co.gm4.uhc.chat.ChatListener;
 import co.gm4.uhc.chat.ModCommand;
 import co.gm4.uhc.chat.MuteCommand;
 import co.gm4.uhc.chat.ShoutCommand;
+import co.gm4.uhc.chat.SilenceCommand;
 import co.gm4.uhc.gameplay.PotionBanListener;
 import co.gm4.uhc.team.TeamManager;
 
@@ -24,6 +25,11 @@ public class GM4UHC extends JavaPlugin {
 	 * Handling the muting of players.
 	 */
 	private MuteCommand mute = new MuteCommand();
+	
+	/**
+	 * Handling the ability to silence chat.
+	 */
+	private SilenceCommand silence = new SilenceCommand();
 
 	@Override
 	public void onEnable() {
@@ -47,6 +53,7 @@ public class GM4UHC extends JavaPlugin {
 		getCommand("mod").setExecutor(new ModCommand());
 		getCommand("mute").setExecutor(mute);
 		getCommand("unmuteall").setExecutor(mute);
+		getCommand("silence").setExecutor(silence);
 	}
 
 	/**
@@ -60,6 +67,10 @@ public class GM4UHC extends JavaPlugin {
 	
 	public TeamManager getTeamManager() {
 		return teamManager;
+	}
+	
+	public SilenceCommand getSilence() {
+		return silence;
 	}
 	
 	public MuteCommand getMute() {
