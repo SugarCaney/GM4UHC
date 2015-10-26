@@ -6,8 +6,11 @@ description: >
              Gamemode 4 UHC plugin
 commands:
   uhc:
-    description: Gamemode 4 UHC
+    description: Gamemode 4 UHC Help
     permission: uhc.mod
   gm4:
-    description: Gamemode 4 UHC
+    description: Gamemode 4 Info
+  shout:
+    description: Broadcast a message to all players.
     permission: uhc.mod
+    aliases: [broadcast]
