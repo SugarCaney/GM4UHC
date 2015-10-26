@@ -1,16 +1,20 @@
 name: GM4UHC
 main: co.gm4.uhc.GM4UHC
 authors: [MrSugarCaney]
-version: '1.0'
+version: '0.15'
 description: >
              Gamemode 4 UHC plugin
 commands:
+  mod:
+    description: Send a message to all moderators.
+    permission: uhc.mod
+    aliases: [modmsg, modmail, mail]
+  shout:
+    description: Broadcast a message to all players.
+    permission: uhc.mod
+    aliases: [broadcast]
   uhc:
     description: Gamemode 4 UHC Help
     permission: uhc.mod
   gm4:
     description: Gamemode 4 Info
-  shout:
-    description: Broadcast a message to all players.
-    permission: uhc.mod
-    aliases: [broadcast]

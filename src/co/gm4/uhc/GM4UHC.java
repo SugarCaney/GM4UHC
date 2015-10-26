@@ -4,6 +4,7 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import co.gm4.uhc.chat.ChatListener;
+import co.gm4.uhc.chat.ModCommand;
 import co.gm4.uhc.chat.ShoutCommand;
 import co.gm4.uhc.gameplay.PotionBanListener;
 import co.gm4.uhc.team.TeamManager;
@@ -41,6 +42,7 @@ public class GM4UHC extends JavaPlugin {
 	 */
 	public void registerCommands() {
 		getCommand("shout").setExecutor(new ShoutCommand());
+		getCommand("mod").setExecutor(new ModCommand());
 	}
 
 	/**

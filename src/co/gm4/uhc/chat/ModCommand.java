@@ -1,19 +1,18 @@
 package co.gm4.uhc.chat;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
-import co.gm4.uhc.Util;
+import co.gm4.uhc.Permission;
 
 /**
- * Show a stand out broadcast message to all players.
  * 
  * @author MrSugarCaney
  */
-public class ShoutCommand implements CommandExecutor {
+public class ModCommand implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -22,17 +21,18 @@ public class ShoutCommand implements CommandExecutor {
 			return false;
 		}
 
-		StringBuilder sb = new StringBuilder(" ");
+		StringBuilder sb = new StringBuilder("");
 		for (String word : args) {
 			sb.append(word).append(" ");
 		}
-		String message = sb.toString();
+		String message = sb.toString().trim();
 
-		String header = ChatColor.BLUE + Util.fill('=', 62);
-
-		Bukkit.broadcastMessage(header);
-		Bukkit.broadcastMessage(ChatColor.AQUA + message);
-		Bukkit.broadcastMessage(header);
+		String mail = ">> " + Broadcast.MOD_MAIL_PREFIX + sender.getName() + ": " + message;
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			if (player.hasPermission(Permission.MODERATOR)) {
+				player.sendMessage(mail);
+			}
+		}
 
 		return true;
 	}
