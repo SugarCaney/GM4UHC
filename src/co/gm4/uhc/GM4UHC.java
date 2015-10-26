@@ -5,6 +5,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import co.gm4.uhc.chat.ChatListener;
 import co.gm4.uhc.chat.ModCommand;
+import co.gm4.uhc.chat.MuteCommand;
 import co.gm4.uhc.chat.ShoutCommand;
 import co.gm4.uhc.gameplay.PotionBanListener;
 import co.gm4.uhc.team.TeamManager;
@@ -18,6 +19,11 @@ public class GM4UHC extends JavaPlugin {
 	 * Instance managing the creation and storage of teams.
 	 */
 	private TeamManager teamManager = new TeamManager();
+	
+	/**
+	 * Handling the muting of players.
+	 */
+	private MuteCommand mute = new MuteCommand();
 
 	@Override
 	public void onEnable() {
@@ -33,16 +39,14 @@ public class GM4UHC extends JavaPlugin {
 		getLogger().info("Plugin has been disabled!");
 	}
 
-	public TeamManager getTeamManager() {
-		return teamManager;
-	}
-
 	/**
 	 * Registers all the command executors.
 	 */
 	public void registerCommands() {
 		getCommand("shout").setExecutor(new ShoutCommand());
 		getCommand("mod").setExecutor(new ModCommand());
+		getCommand("mute").setExecutor(mute);
+		getCommand("unmuteall").setExecutor(mute);
 	}
 
 	/**
@@ -52,6 +56,14 @@ public class GM4UHC extends JavaPlugin {
 		PluginManager pm = getServer().getPluginManager();
 		pm.registerEvents(new PotionBanListener(), this);
 		pm.registerEvents(new ChatListener(this), this);
+	}
+	
+	public TeamManager getTeamManager() {
+		return teamManager;
+	}
+	
+	public MuteCommand getMute() {
+		return mute;
 	}
 
 }

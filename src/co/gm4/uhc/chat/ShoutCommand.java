@@ -10,6 +10,8 @@ import co.gm4.uhc.Util;
 
 /**
  * Show a stand out broadcast message to all players.
+ * <p>
+ * Usage: <i>/shout [msg]</i>
  * 
  * @author MrSugarCaney
  */

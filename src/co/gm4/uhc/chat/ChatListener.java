@@ -26,20 +26,27 @@ public class ChatListener implements Listener {
 	}
 
 	@EventHandler
-	public void changeMessageColours(AsyncPlayerChatEvent event) {
+	public void manageChat(AsyncPlayerChatEvent event) {
 		Player player = event.getPlayer();
 		boolean mod = player.hasPermission(Permission.MODERATOR);
 		String message = event.getMessage();
 
+		// Check for mute
+		if (plugin.getMute().isMuted(player)) {
+			event.setCancelled(true);
+			player.sendMessage(Broadcast.NOTIFICATION + "You can't talk. You have been muted.");
+			return;
+		}
+
 		// Determine player colour.
-		Team team = plugin.getTeamManager().getTeamByPlayer(player);
+		Team team = plugin.getTeamManager().getAsyncTeamByPlayer(player);
 		ChatColor color = null;
 		if (team == null) {
 			String colorName = plugin.getConfig().getString("colours." + player.getName());
 			color = ChatColor.valueOf(colorName);
 		}
 		else {
-			color = team.getColour();
+			color = team.getAsyncColour();
 		}
 
 		// Change chat message

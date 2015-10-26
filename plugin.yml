@@ -1,10 +1,17 @@
 name: GM4UHC
 main: co.gm4.uhc.GM4UHC
 authors: [MrSugarCaney]
-version: '0.15'
+version: '0.16'
 description: >
              Gamemode 4 UHC plugin
 commands:
+  mute:
+    description: (Un)mutes a player.
+    permission: uhc.mod
+    aliases: [unmute]
+  unmuteall:
+    description: Unmutes all players.
+    permission: uhc.mod
   mod:
     description: Send a message to all moderators.
     permission: uhc.mod

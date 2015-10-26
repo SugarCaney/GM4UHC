@@ -111,6 +111,26 @@ public class TeamManager {
 
 		return null;
 	}
+	
+	/**
+	 * Looks for the team the given player is in.
+	 * <p>
+	 * Synchronized
+	 * 
+	 * @param player
+	 *            The player to check for.
+	 * @return The Team the given player is in, or <i>null</i> if the player has
+	 *         no team.
+	 */
+	public synchronized Team getAsyncTeamByPlayer(Player player) {
+		for (Team team : teams) {
+			if (team.getAsyncPlayers().contains(player)) {
+				return team;
+			}
+		}
+
+		return null;
+	}
 
 	/**
 	 * Return a list of all teams that match a given predicate.

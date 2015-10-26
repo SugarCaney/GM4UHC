@@ -9,6 +9,9 @@ import org.bukkit.entity.Player;
 import co.gm4.uhc.Permission;
 
 /**
+ * Sends a message to all mods (mods only).
+ * <p>
+ * Usage: <i>/mod [msg]</i>
  * 
  * @author MrSugarCaney
  */

@@ -11,5 +11,8 @@ public class Broadcast {
 			+ ChatColor.ITALIC + "!! " + ChatColor.RED;
 	public static final String MOD_MAIL_PREFIX = ChatColor.GOLD + "" + ChatColor.BOLD + ""
 			+ ChatColor.ITALIC + "MOD MAIL " + ChatColor.WHITE;
+	public static final String SUCCESS_PREFIX = ChatColor.DARK_GREEN + "" + ChatColor.BOLD + ""
+			+ ChatColor.ITALIC + "SUCCESS " + ChatColor.GREEN;
+	public static final String NOTIFICATION = ChatColor.GRAY + "";
 
 }

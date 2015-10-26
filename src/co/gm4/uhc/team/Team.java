@@ -47,11 +47,22 @@ public class Team {
 	public List<Player> getPlayers() {
 		return players;
 	}
+	
+	/**
+	 * Get the list of all team members.
+	 */
+	public synchronized List<Player> getAsyncPlayers() {
+		return players;
+	}
 
 	public void setColour(ChatColor colour) {
 		this.colour = colour;
 	}
 
+	public synchronized ChatColor getAsyncColour() {
+		return colour;
+	}
+	
 	public ChatColor getColour() {
 		return colour;
 	}
