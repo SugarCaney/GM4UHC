@@ -7,7 +7,7 @@ package co.gm4.uhc;
  */
 public class Permission {
 
-	public static final String BASE_NODE = "gm4";
+	public static final String BASE_NODE = "uhc";
 	public static final String MODERATOR = BASE_NODE + ".mod";
 	
 }
