@@ -1,3 +1,6 @@
+colours:
+  PenguinJ2: "AQUA"
+  MrSugarCaney: "GREEN"
 teams:
   example_team:
     members:

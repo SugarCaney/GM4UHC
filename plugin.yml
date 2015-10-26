@@ -7,7 +7,7 @@ description: >
 commands:
   uhc:
     description: Gamemode 4 UHC
-    permission: gm4.mod
+    permission: uhc.mod
   gm4:
     description: Gamemode 4 UHC
-    permission: gm4.mod
+    permission: uhc.mod
