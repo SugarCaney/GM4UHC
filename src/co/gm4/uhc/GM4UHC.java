@@ -16,6 +16,7 @@ import co.gm4.uhc.chat.SilenceCommand;
 import co.gm4.uhc.gameplay.PlayerJoinListener;
 import co.gm4.uhc.gameplay.PotionBanListener;
 import co.gm4.uhc.team.FriendlyFire;
+import co.gm4.uhc.team.RemoveCommand;
 import co.gm4.uhc.team.Team;
 import co.gm4.uhc.team.TeamColourCommand;
 import co.gm4.uhc.team.TeamCommand;
@@ -70,6 +71,7 @@ public class GM4UHC extends JavaPlugin {
 		getCommand("team").setExecutor(new TeamCommand(this));
 		getCommand("teamcolour").setExecutor(new TeamColourCommand(this));
 		getCommand("colours").setExecutor(new Help());
+		getCommand("remove").setExecutor(new RemoveCommand(this));
 	}
 
 	/**
@@ -117,7 +119,7 @@ public class GM4UHC extends JavaPlugin {
 				name += colour + player.getName();
 
 				if (player.hasPermission(Permission.MODERATOR)) {
-					name += ChatColor.WHITE + "" + ChatColor.BOLD + " NP";
+					name += ChatColor.WHITE + "" + ChatColor.BOLD + " SP";
 				}
 			}
 			else {

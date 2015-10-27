@@ -1,10 +1,14 @@
 name: GM4UHC
 main: co.gm4.uhc.GM4UHC
 authors: [MrSugarCaney]
-version: '0.27'
+version: '0.28'
 description: >
              Gamemode 4 UHC plugin
 commands:
+  remove:
+    description: Removes a player from their team.
+    permission: uhc.mod
+    aliases: [rem, tr]
   colours:
     description: Shows a list of all available colours and accents.
     permission: uhc.mod
