@@ -24,6 +24,7 @@ public class PlayerJoinListener implements Listener {
 	
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event) {
+		plugin.setTabNames();
 	}
 	
 }

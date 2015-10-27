@@ -1,10 +1,14 @@
 name: GM4UHC
 main: co.gm4.uhc.GM4UHC
 authors: [MrSugarCaney]
-version: '0.24'
+version: '0.25'
 description: >
              Gamemode 4 UHC plugin
 commands:
+  team:
+    description: Puts all the given players in a team.
+    permission: uhc.mod
+    aliases: [t]
   silence:
     description: Only show mod messages.
   mute:

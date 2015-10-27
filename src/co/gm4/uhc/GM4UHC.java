@@ -16,6 +16,7 @@ import co.gm4.uhc.gameplay.PlayerJoinListener;
 import co.gm4.uhc.gameplay.PotionBanListener;
 import co.gm4.uhc.team.FriendlyFire;
 import co.gm4.uhc.team.Team;
+import co.gm4.uhc.team.TeamCommand;
 import co.gm4.uhc.team.TeamManager;
 
 /**
@@ -64,6 +65,7 @@ public class GM4UHC extends JavaPlugin {
 		getCommand("mute").setExecutor(mute);
 		getCommand("unmuteall").setExecutor(mute);
 		getCommand("silence").setExecutor(silence);
+		getCommand("team").setExecutor(new TeamCommand(this));
 	}
 
 	/**

@@ -2,6 +2,7 @@ package co.gm4.uhc.team;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -25,6 +26,25 @@ public class TeamManager {
 	 * List of all teams.
 	 */
 	private List<Team> teams = new ArrayList<>();
+
+	/**
+	 * Removes the given player from their team.
+	 * <p>
+	 * This method will also clean up all the teams that have no members left.
+	 * 
+	 * @param player
+	 *            The player to remove from their team.
+	 */
+	public void removeFromTeam(Player player) {
+		Team team = getTeamByPlayer(player);
+
+		if (team == null) {
+			return;
+		}
+
+		team.getPlayers().remove(player);
+		removeEmptyTeams();
+	}
 
 	/**
 	 * Get all the players that are currently not in a team.
@@ -70,7 +90,7 @@ public class TeamManager {
 		for (String key : keys) {
 			List<String> players = section.getStringList(key + ".members");
 			ChatColor colour = ChatColor.valueOf(section.getString(key + ".color"));
-			
+
 			ChatColor accentInput = null;
 			if (section.isSet(key + ".accent")) {
 				accentInput = ChatColor.valueOf(section.getString(key + ".accent"));
@@ -80,7 +100,7 @@ public class TeamManager {
 			List<Player> playerObjects = new ArrayList<>();
 			for (String playerName : players) {
 				Player player = Bukkit.getPlayer(playerName);
-				
+
 				if (player == null) {
 					continue;
 				}
@@ -123,7 +143,7 @@ public class TeamManager {
 
 		return null;
 	}
-	
+
 	/**
 	 * Looks for the team the given player is in.
 	 * <p>
@@ -176,6 +196,34 @@ public class TeamManager {
 
 		Team team = new Team();
 		team.getPlayers().addAll(Arrays.asList(players));
+		teams.add(team);
+
+		removeEmptyTeams();
+
+		return team;
+	}
+
+	/**
+	 * Creates a new team with the given members.
+	 * <p>
+	 * This will also remove all the players from their previous teams and
+	 * delete the teams if they become empty because of this.
+	 * 
+	 * @param players
+	 *            A collection of all players to put together in a team.
+	 * @return The freshly generated team.
+	 */
+	public Team newTeam(Collection<Player> players) {
+		for (Player player : players) {
+			for (Team team : teams) {
+				if (team.getPlayers().contains(player)) {
+					team.getPlayers().remove(player);
+				}
+			}
+		}
+
+		Team team = new Team();
+		team.getPlayers().addAll(players);
 		teams.add(team);
 
 		removeEmptyTeams();
