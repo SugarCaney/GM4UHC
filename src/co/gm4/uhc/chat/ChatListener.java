@@ -49,13 +49,13 @@ public class ChatListener implements Listener {
 
 		// Modify message colours and format
 		Team team = plugin.getTeamManager().getAsyncTeamByPlayer(player);
-		ChatColor color = null;
+		String color = null;
 		if (team == null) {
 			String colorName = plugin.getConfig().getString("colours." + player.getName());
-			color = ChatColor.valueOf(colorName);
+			color = ChatColor.valueOf(colorName) + "";
 		}
 		else {
-			color = team.getAsyncColour();
+			color = team.getChatColours();
 		}
 
 		event.setCancelled(true);

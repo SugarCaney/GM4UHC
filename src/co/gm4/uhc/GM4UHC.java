@@ -20,12 +20,12 @@ public class GM4UHC extends JavaPlugin {
 	 * Instance managing the creation and storage of teams.
 	 */
 	private TeamManager teamManager = new TeamManager();
-	
+
 	/**
 	 * Handling the muting of players.
 	 */
 	private MuteCommand mute = new MuteCommand();
-	
+
 	/**
 	 * Handling the ability to silence chat.
 	 */
@@ -64,15 +64,15 @@ public class GM4UHC extends JavaPlugin {
 		pm.registerEvents(new PotionBanListener(), this);
 		pm.registerEvents(new ChatListener(this), this);
 	}
-	
+
 	public TeamManager getTeamManager() {
 		return teamManager;
 	}
-	
+
 	public SilenceCommand getSilence() {
 		return silence;
 	}
-	
+
 	public MuteCommand getMute() {
 		return mute;
 	}

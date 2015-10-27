@@ -10,8 +10,10 @@ teams:
     - example_member_1
     - example_member_2
     color: "GREEN"
+    accent: ""
   example_team_2:
     members:
     - example_member_3
     - example_member_4
     color: "GOLD"
+    accent: "ITALIC"

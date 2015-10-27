@@ -70,6 +70,8 @@ public class TeamManager {
 		for (String key : keys) {
 			List<String> players = section.getStringList(key + ".members");
 			ChatColor colour = ChatColor.valueOf(section.getString(key + ".color"));
+			ChatColor accentInput = ChatColor.valueOf(section.getString(key + ".accent"));
+			String accent = (accentInput == null ? "" : accentInput + "");
 
 			List<Player> playerObjects = new ArrayList<>();
 			for (String playerName : players) {
@@ -87,6 +89,7 @@ public class TeamManager {
 				Team team = new Team();
 				team.getPlayers().addAll(playerObjects);
 				team.setColour(colour);
+				team.setAccent(accent);
 				teamCount++;
 			}
 		}

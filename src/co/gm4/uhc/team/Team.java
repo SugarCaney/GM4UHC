@@ -37,6 +37,15 @@ public class Team {
 	 */
 	private ChatColor colour = ChatColor.WHITE;
 
+	/**
+	 * The ChatColor accent the team has stored as a String.
+	 * <p>
+	 * E.g. {@link ChatColor#ITALIC}.
+	 * <p>
+	 * Default: <i>""</i>
+	 */
+	private String accent = "";
+
 	public Team() {
 		id = ID_COUNT++;
 	}
@@ -47,7 +56,7 @@ public class Team {
 	public List<Player> getPlayers() {
 		return players;
 	}
-	
+
 	/**
 	 * Get the list of all team members.
 	 */
@@ -59,10 +68,28 @@ public class Team {
 		this.colour = colour;
 	}
 
-	public synchronized ChatColor getAsyncColour() {
-		return colour;
+	public void setAccent(ChatColor colour) {
+		if (colour == null) {
+			accent = "";
+			return;
+		}
+		
+		accent = colour + "";
 	}
 	
+	public void setAccent(String accent) {
+		this.accent = accent;
+	}
+
+	/**
+	 * Returns the string including a chosen accent.
+	 * 
+	 * @return colour + accent
+	 */
+	public synchronized String getChatColours() {
+		return colour + accent;
+	}
+
 	public ChatColor getColour() {
 		return colour;
 	}
@@ -75,7 +102,7 @@ public class Team {
 	public String toString() {
 		return "Team #" + id + ":" + players;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -93,13 +120,14 @@ public class Team {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Team other = (Team) obj;
+		Team other = (Team)obj;
 		if (colour != other.colour)
 			return false;
 		if (players == null) {
 			if (other.players != null)
 				return false;
-		} else if (!players.equals(other.players))
+		}
+		else if (!players.equals(other.players))
 			return false;
 		return true;
 	}
