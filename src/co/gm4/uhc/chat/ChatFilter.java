@@ -84,10 +84,12 @@ public class ChatFilter {
 		string = string.replace("ñ", "n");
 		string = string.replace("ß", "b");
 		string = string.replaceAll("(ooo*)", "oo");
-		string = string.replaceAll("(aaa*)", "aa");
-		string = string.replaceAll("(iii*)", "ii");
-		string = string.replaceAll("(uuu*)", "uu");
-		string = string.replaceAll("(eee*)", "ee");
+		string = string.replaceAll("(aa*)", "a");
+		string = string.replaceAll("(ii*)", "i");
+		string = string.replaceAll("(uu*)", "u");
+		string = string.replaceAll("(ee*)", "e");
+		
+		System.out.println(string);;
 
 		boolean contains = false;
 		for (String ban : banned) {
