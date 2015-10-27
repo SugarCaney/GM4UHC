@@ -2,9 +2,11 @@ package co.gm4.uhc.team;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
+
+import co.gm4.uhc.Util;
 
 /**
  * A team consists out of multiple players and a team colour.
@@ -28,7 +30,7 @@ public class Team {
 	/**
 	 * All the members of the team.
 	 */
-	private List<Player> players = new ArrayList<>();
+	private List<UUID> players = new ArrayList<>();
 
 	/**
 	 * The display colour a team has.
@@ -53,14 +55,14 @@ public class Team {
 	/**
 	 * Get the list of all team members.
 	 */
-	public List<Player> getPlayers() {
+	public List<UUID> getPlayers() {
 		return players;
 	}
 
 	/**
 	 * Get the list of all team members.
 	 */
-	public synchronized List<Player> getAsyncPlayers() {
+	public synchronized List<UUID> getAsyncPlayers() {
 		return players;
 	}
 
@@ -100,7 +102,7 @@ public class Team {
 
 	@Override
 	public String toString() {
-		return "Team #" + id + ":" + players;
+		return "Team #" + id + ":" + Util.toString(players);
 	}
 
 	@Override

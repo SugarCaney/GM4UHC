@@ -1,7 +1,9 @@
 package co.gm4.uhc;
 
 import java.util.Collection;
+import java.util.UUID;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 /**
@@ -19,13 +21,14 @@ public class Util {
 	 * Example: <i>MrSugarCaney, PenguinJ2</i>
 	 * 
 	 * @param players
-	 *            Collection of player objects.
+	 *            Collection of player UUIDs.
 	 * @return Formatted string.
 	 */
-	public static String toString(Collection<Player> players) {
+	public static String toString(Collection<UUID> players) {
 		StringBuilder sb = new StringBuilder();
 		
-		for (Player player : players) {
+		for (UUID playerId : players) {
+			Player player = Bukkit.getPlayer(playerId);
 			sb.append(player.getName());
 			sb.append(", ");
 		}

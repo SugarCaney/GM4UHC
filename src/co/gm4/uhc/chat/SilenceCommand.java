@@ -2,6 +2,7 @@ package co.gm4.uhc.chat;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -20,7 +21,7 @@ public class SilenceCommand implements CommandExecutor {
 	/**
 	 * List of all players that have the chat silenced.
 	 */
-	private List<Player> silenced = new ArrayList<>();
+	private List<UUID> silenced = new ArrayList<>();
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -30,12 +31,12 @@ public class SilenceCommand implements CommandExecutor {
 		
 		Player player = (Player)sender;
 		
-		if (silenced.contains(player)) {
-			silenced.remove(player);
+		if (silenced.contains(player.getUniqueId())) {
+			silenced.remove(player.getUniqueId());
 			player.sendMessage(Broadcast.NOTIFICATION + "The chat is no longer silenced.");
 		}
 		else {
-			silenced.add(player);
+			silenced.add(player.getUniqueId());
 			player.sendMessage(Broadcast.NOTIFICATION + "Your chat has been silenced.");
 		}
 
@@ -43,7 +44,7 @@ public class SilenceCommand implements CommandExecutor {
 	}
 	
 	public boolean isSilenced(Player player) {
-		return silenced.contains(player);
+		return silenced.contains(player.getUniqueId());
 	}
 
 }

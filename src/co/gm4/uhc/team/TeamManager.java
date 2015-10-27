@@ -1,11 +1,11 @@
 package co.gm4.uhc.team;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -42,7 +42,7 @@ public class TeamManager {
 			return;
 		}
 
-		team.getPlayers().remove(player);
+		team.getPlayers().remove(player.getUniqueId());
 		removeEmptyTeams();
 	}
 
@@ -58,7 +58,7 @@ public class TeamManager {
 			boolean contains = false;
 
 			for (Team team : teams) {
-				if (team.getPlayers().contains(player)) {
+				if (team.getPlayers().contains(player.getUniqueId())) {
 					contains = true;
 					break;
 				}
@@ -97,7 +97,7 @@ public class TeamManager {
 			}
 			String accent = (accentInput == null ? "" : accentInput + "");
 
-			List<Player> playerObjects = new ArrayList<>();
+			List<UUID> playerIds = new ArrayList<>();
 			for (String playerName : players) {
 				Player player = Bukkit.getPlayer(playerName);
 
@@ -106,16 +106,16 @@ public class TeamManager {
 				}
 
 				if (!player.isOnline()) {
-					playerObjects.clear();
+					playerIds.clear();
 					break;
 				}
 
-				playerObjects.add(player);
+				playerIds.add(player.getUniqueId());
 			}
 
-			if (playerObjects.size() > 0) {
+			if (playerIds.size() > 0) {
 				Team team = new Team();
-				team.getPlayers().addAll(playerObjects);
+				team.getPlayers().addAll(playerIds);
 				team.setColour(colour);
 				team.setAccent(accent);
 				teams.add(team);
@@ -136,7 +136,7 @@ public class TeamManager {
 	 */
 	public Team getTeamByPlayer(Player player) {
 		for (Team team : teams) {
-			if (team.getPlayers().contains(player)) {
+			if (team.getPlayers().contains(player.getUniqueId())) {
 				return team;
 			}
 		}
@@ -156,7 +156,7 @@ public class TeamManager {
 	 */
 	public synchronized Team getAsyncTeamByPlayer(Player player) {
 		for (Team team : teams) {
-			if (team.getAsyncPlayers().contains(player)) {
+			if (team.getAsyncPlayers().contains(player.getUniqueId())) {
 				return team;
 			}
 		}
@@ -188,14 +188,16 @@ public class TeamManager {
 	public Team newTeam(Player... players) {
 		for (Player player : players) {
 			for (Team team : teams) {
-				if (team.getPlayers().contains(player)) {
-					team.getPlayers().remove(player);
+				if (team.getPlayers().contains(player.getUniqueId())) {
+					team.getPlayers().remove(player.getUniqueId());
 				}
 			}
 		}
 
 		Team team = new Team();
-		team.getPlayers().addAll(Arrays.asList(players));
+		for (Player player : players) {
+			team.getPlayers().add(player.getUniqueId());
+		}
 		teams.add(team);
 
 		removeEmptyTeams();
@@ -216,14 +218,16 @@ public class TeamManager {
 	public Team newTeam(Collection<Player> players) {
 		for (Player player : players) {
 			for (Team team : teams) {
-				if (team.getPlayers().contains(player)) {
-					team.getPlayers().remove(player);
+				if (team.getPlayers().contains(player.getUniqueId())) {
+					team.getPlayers().remove(player.getUniqueId());
 				}
 			}
 		}
 
 		Team team = new Team();
-		team.getPlayers().addAll(players);
+		for (Player player : players) {
+			team.getPlayers().add(player.getUniqueId());
+		}
 		teams.add(team);
 
 		removeEmptyTeams();

@@ -2,6 +2,7 @@ package co.gm4.uhc.chat;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -25,7 +26,7 @@ public class MuteCommand implements CommandExecutor {
 	/**
 	 * List of all players that are muted.
 	 */
-	private List<Player> mutedPlayers = new ArrayList<>();
+	private List<UUID> mutedPlayers = new ArrayList<>();
 
 	@SuppressWarnings("deprecation")
 	@Override
@@ -36,7 +37,8 @@ public class MuteCommand implements CommandExecutor {
 		if (label.equalsIgnoreCase("unmuteall")) {
 			int amount = mutedPlayers.size();
 
-			for (Player muted : mutedPlayers) {
+			for (UUID mutedId : mutedPlayers) {
+				Player muted = Bukkit.getPlayer(mutedId);
 				muted.sendMessage(Broadcast.NOTIFICATION + "You have been unmuted.");
 			}
 			mutedPlayers.clear();
@@ -73,14 +75,14 @@ public class MuteCommand implements CommandExecutor {
 		}
 
 		// Unmute
-		if (mutedPlayers.contains(player)) {
-			mutedPlayers.remove(player);
+		if (mutedPlayers.contains(player.getUniqueId())) {
+			mutedPlayers.remove(player.getUniqueId());
 			sender.sendMessage(Broadcast.SUCCESS_PREFIX + playerName + " has been unmuted!");
 			player.sendMessage(Broadcast.NOTIFICATION + "You have been unmuted.");
 		}
 		// Mute
 		else {
-			mutedPlayers.add(player);
+			mutedPlayers.add(player.getUniqueId());
 			sender.sendMessage(Broadcast.SUCCESS_PREFIX + playerName + " has been muted!");
 			player.sendMessage(Broadcast.NOTIFICATION + "You have been muted.");
 		}
@@ -89,7 +91,7 @@ public class MuteCommand implements CommandExecutor {
 	}
 
 	public synchronized boolean isMuted(Player player) {
-		return mutedPlayers.contains(player);
+		return mutedPlayers.contains(player.getUniqueId());
 	}
 
 }
