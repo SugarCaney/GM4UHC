@@ -2,6 +2,7 @@ package co.gm4.uhc;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -16,6 +17,7 @@ import co.gm4.uhc.gameplay.PlayerJoinListener;
 import co.gm4.uhc.gameplay.PotionBanListener;
 import co.gm4.uhc.team.FriendlyFire;
 import co.gm4.uhc.team.Team;
+import co.gm4.uhc.team.TeamColourCommand;
 import co.gm4.uhc.team.TeamCommand;
 import co.gm4.uhc.team.TeamManager;
 
@@ -66,6 +68,7 @@ public class GM4UHC extends JavaPlugin {
 		getCommand("unmuteall").setExecutor(mute);
 		getCommand("silence").setExecutor(silence);
 		getCommand("team").setExecutor(new TeamCommand(this));
+		getCommand("teamcolour").setExecutor(new TeamColourCommand(this));
 	}
 
 	/**
@@ -84,7 +87,7 @@ public class GM4UHC extends JavaPlugin {
 	 */
 	public void registerTasks() {
 		BukkitScheduler scheduler = getServer().getScheduler();
-		scheduler.scheduleSyncRepeatingTask(this, () -> setTabNames(), 0L, 100L);
+		scheduler.scheduleSyncRepeatingTask(this, () -> setTabNames(), 0L, 20L);
 	}
 
 	/**
@@ -111,12 +114,43 @@ public class GM4UHC extends JavaPlugin {
 
 			if (team == null) {
 				name += colour + player.getName();
+
+				if (player.hasPermission(Permission.MODERATOR)) {
+					name += ChatColor.WHITE + "" + ChatColor.BOLD + " NP";
+				}
 			}
 			else {
 				name += team.getChatColours() + player.getName();
+
+				// Add health.
+				if (player.getGameMode() == GameMode.SURVIVAL) {
+					int health = (int)player.getHealth();
+					name += getHeartColor(health) + " ❤" + ChatColor.YELLOW + health;
+				}
 			}
 
 			player.setPlayerListName(name);
+		}
+	}
+	
+	private ChatColor getHeartColor(int health) {
+		if (health >= 18) {
+			return ChatColor.DARK_GREEN;
+		}
+		else if (health >= 14) {
+			return ChatColor.GREEN;
+		}
+		else if (health >= 10) {
+			return ChatColor.YELLOW;
+		}
+		else if (health >= 7) {
+			return ChatColor.GOLD;
+		}
+		else if (health >= 4) {
+			return ChatColor.RED;
+		}
+		else {
+			return ChatColor.DARK_RED;
 		}
 	}
 

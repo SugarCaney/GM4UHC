@@ -1,10 +1,14 @@
 name: GM4UHC
 main: co.gm4.uhc.GM4UHC
 authors: [MrSugarCaney]
-version: '0.25'
+version: '0.26'
 description: >
              Gamemode 4 UHC plugin
 commands:
+  teamcolour:
+    description: Changes the colour of a player's team.
+    permission: uhc.mod
+    aliases: [tc, teamc, teamcolor, ta, teama, teamaccent]
   team:
     description: Puts all the given players in a team.
     permission: uhc.mod
