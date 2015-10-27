@@ -18,7 +18,7 @@ public class Team {
 	/**
 	 * Team count making sure all teams have a different ID.
 	 */
-	private static int ID_COUNT = 1;
+	private static int idCount = 1;
 
 	/**
 	 * The team ID.
@@ -47,7 +47,7 @@ public class Team {
 	private String accent = "";
 
 	public Team() {
-		id = ID_COUNT++;
+		id = idCount++;
 	}
 
 	/**
@@ -73,10 +73,10 @@ public class Team {
 			accent = "";
 			return;
 		}
-		
+
 		accent = colour + "";
 	}
-	
+
 	public void setAccent(String accent) {
 		this.accent = accent;
 	}
@@ -107,8 +107,7 @@ public class Team {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((colour == null) ? 0 : colour.hashCode());
-		result = prime * result + ((players == null) ? 0 : players.hashCode());
+		result = prime * result + id;
 		return result;
 	}
 
@@ -121,13 +120,7 @@ public class Team {
 		if (getClass() != obj.getClass())
 			return false;
 		Team other = (Team)obj;
-		if (colour != other.colour)
-			return false;
-		if (players == null) {
-			if (other.players != null)
-				return false;
-		}
-		else if (!players.equals(other.players))
+		if (id != other.id)
 			return false;
 		return true;
 	}

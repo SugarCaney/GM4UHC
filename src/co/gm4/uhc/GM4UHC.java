@@ -9,6 +9,7 @@ import co.gm4.uhc.chat.MuteCommand;
 import co.gm4.uhc.chat.ShoutCommand;
 import co.gm4.uhc.chat.SilenceCommand;
 import co.gm4.uhc.gameplay.PotionBanListener;
+import co.gm4.uhc.team.FriendlyFire;
 import co.gm4.uhc.team.TeamManager;
 
 /**
@@ -65,6 +66,7 @@ public class GM4UHC extends JavaPlugin {
 		PluginManager pm = getServer().getPluginManager();
 		pm.registerEvents(new PotionBanListener(), this);
 		pm.registerEvents(new ChatListener(this), this);
+		pm.registerEvents(new FriendlyFire(this), this);
 	}
 
 	public TeamManager getTeamManager() {
