@@ -29,6 +29,7 @@ public class ShoutCommand implements CommandExecutor {
 			sb.append(word).append(" ");
 		}
 		String message = sb.toString();
+		message = message.replaceAll("&", ChatColor.COLOR_CHAR + "");
 
 		String header = ChatColor.DARK_AQUA + Util.fill('=', 62);
 

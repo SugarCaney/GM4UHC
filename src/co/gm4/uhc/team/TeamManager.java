@@ -82,7 +82,6 @@ public class TeamManager {
 				Player player = Bukkit.getPlayer(playerName);
 				
 				if (player == null) {
-					System.out.println(playerName + " skipped");
 					continue;
 				}
 
