@@ -36,6 +36,8 @@ public class GM4UHC extends JavaPlugin {
 		saveDefaultConfig();
 		registerListeners();
 		registerCommands();
+		
+		teamManager.parseTeams(getConfig());
 
 		getLogger().info("Plugin has been enabled!");
 	}

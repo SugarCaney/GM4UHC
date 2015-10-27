@@ -70,12 +70,21 @@ public class TeamManager {
 		for (String key : keys) {
 			List<String> players = section.getStringList(key + ".members");
 			ChatColor colour = ChatColor.valueOf(section.getString(key + ".color"));
-			ChatColor accentInput = ChatColor.valueOf(section.getString(key + ".accent"));
+			
+			ChatColor accentInput = null;
+			if (section.isSet(key + ".accent")) {
+				accentInput = ChatColor.valueOf(section.getString(key + ".accent"));
+			}
 			String accent = (accentInput == null ? "" : accentInput + "");
 
 			List<Player> playerObjects = new ArrayList<>();
 			for (String playerName : players) {
 				Player player = Bukkit.getPlayer(playerName);
+				
+				if (player == null) {
+					System.out.println(playerName + " skipped");
+					continue;
+				}
 
 				if (!player.isOnline()) {
 					playerObjects.clear();
@@ -90,6 +99,7 @@ public class TeamManager {
 				team.getPlayers().addAll(playerObjects);
 				team.setColour(colour);
 				team.setAccent(accent);
+				teams.add(team);
 				teamCount++;
 			}
 		}

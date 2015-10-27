@@ -56,6 +56,11 @@ public class MuteCommand implements CommandExecutor {
 
 		String playerName = args[0];
 		Player player = Bukkit.getPlayer(playerName);
+		
+		if (player == null) {
+			sender.sendMessage(Broadcast.ERROR_PREFIX + playerName + " doesn't exist!");
+			return false;
+		}
 
 		if (!player.isOnline()) {
 			sender.sendMessage(Broadcast.ERROR_PREFIX + playerName + " is not online!");

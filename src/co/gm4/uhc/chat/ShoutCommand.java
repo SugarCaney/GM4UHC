@@ -30,7 +30,7 @@ public class ShoutCommand implements CommandExecutor {
 		}
 		String message = sb.toString();
 
-		String header = ChatColor.BLUE + Util.fill('=', 62);
+		String header = ChatColor.DARK_AQUA + Util.fill('=', 62);
 
 		Bukkit.broadcastMessage(header);
 		Bukkit.broadcastMessage(ChatColor.AQUA + message);
