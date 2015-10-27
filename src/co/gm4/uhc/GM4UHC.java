@@ -1,15 +1,21 @@
 package co.gm4.uhc;
 
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitScheduler;
 
 import co.gm4.uhc.chat.ChatListener;
 import co.gm4.uhc.chat.ModCommand;
 import co.gm4.uhc.chat.MuteCommand;
 import co.gm4.uhc.chat.ShoutCommand;
 import co.gm4.uhc.chat.SilenceCommand;
+import co.gm4.uhc.gameplay.PlayerJoinListener;
 import co.gm4.uhc.gameplay.PotionBanListener;
 import co.gm4.uhc.team.FriendlyFire;
+import co.gm4.uhc.team.Team;
 import co.gm4.uhc.team.TeamManager;
 
 /**
@@ -37,8 +43,9 @@ public class GM4UHC extends JavaPlugin {
 		saveDefaultConfig();
 		registerListeners();
 		registerCommands();
-		
-		teamManager.parseTeams(getConfig());
+		registerTasks();
+
+		setTabNames();
 
 		getLogger().info("Plugin has been enabled!");
 	}
@@ -67,6 +74,48 @@ public class GM4UHC extends JavaPlugin {
 		pm.registerEvents(new PotionBanListener(), this);
 		pm.registerEvents(new ChatListener(this), this);
 		pm.registerEvents(new FriendlyFire(this), this);
+		pm.registerEvents(new PlayerJoinListener(this), this);
+	}
+
+	/**
+	 * Registers all the reoccuring events.
+	 */
+	public void registerTasks() {
+		BukkitScheduler scheduler = getServer().getScheduler();
+		scheduler.scheduleSyncRepeatingTask(this, () -> setTabNames(), 0L, 100L);
+	}
+
+	/**
+	 * Sets the tab name of all players.
+	 */
+	public void setTabNames() {
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			String name = "";
+			Team team = teamManager.getTeamByPlayer(player);
+			ChatColor colour = ChatColor.WHITE;
+
+			if (player.hasPermission(Permission.MODERATOR)) {
+				if (getConfig().isSet("colours." + player.getName())) {
+					colour = ChatColor
+							.valueOf(getConfig().getString("colours." + player.getName()));
+				}
+				else {
+					colour = ChatColor.GOLD;
+				}
+
+				name += (team == null ? colour : team.getColour()) + "" + ChatColor.BOLD + ""
+						+ ChatColor.ITALIC + "MOD ";
+			}
+
+			if (team == null) {
+				name += colour + player.getName();
+			}
+			else {
+				name += team.getChatColours() + player.getName();
+			}
+
+			player.setPlayerListName(name);
+		}
 	}
 
 	public TeamManager getTeamManager() {
