@@ -8,6 +8,7 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
 
+import co.gm4.uhc.chat.ChatFilter;
 import co.gm4.uhc.chat.ChatListener;
 import co.gm4.uhc.chat.ModCommand;
 import co.gm4.uhc.chat.MuteCommand;
@@ -44,6 +45,11 @@ public class GM4UHC extends JavaPlugin {
 	 * Handling the ability to silence chat.
 	 */
 	private SilenceCommand silence = new SilenceCommand();
+	
+	/**
+	 * Class handling the use of foul language.
+	 */
+	private ChatFilter chatFilter;
 
 	@Override
 	public void onEnable() {
@@ -51,6 +57,8 @@ public class GM4UHC extends JavaPlugin {
 		registerListeners();
 		registerCommands();
 		registerTasks();
+		
+		chatFilter = new ChatFilter(getConfig());
 
 		setTabNames();
 
@@ -169,6 +177,10 @@ public class GM4UHC extends JavaPlugin {
 		else {
 			return ChatColor.DARK_RED;
 		}
+	}
+	
+	public ChatFilter getChatFilter() {
+		return chatFilter;
 	}
 	
 	public TeamManager getTeamManager() {

@@ -32,6 +32,13 @@ public class ChatListener implements Listener {
 		boolean mod = player.hasPermission(Permission.MODERATOR);
 		String message = event.getMessage();
 
+		// Foul language filter
+		if (plugin.getChatFilter().containsFoulLanguage(message)) {
+			player.sendMessage(
+					Broadcast.NOTIFICATION + "Please don't swear. Make love, not war <3");
+			message = plugin.getConfig().getString("chat.censor-message");
+		}
+
 		// Check for mute
 		if (plugin.getMute().isMuted(player)) {
 			event.setCancelled(true);
