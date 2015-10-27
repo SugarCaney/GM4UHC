@@ -1,10 +1,13 @@
 name: GM4UHC
 main: co.gm4.uhc.GM4UHC
 authors: [MrSugarCaney]
-version: '0.31'
+version: '0.32'
 description: >
              Gamemode 4 UHC plugin
 commands:
+  parseteams:
+    description: Reads the teams from the configuration file.
+    aliases: [parse, tparse]
   teamless:
     description: Shows who aren't in a team.
     aliases: [tless, noteam]
