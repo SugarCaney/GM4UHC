@@ -1,11 +1,40 @@
 package co.gm4.uhc;
 
+import java.util.Collection;
+
+import org.bukkit.entity.Player;
+
 /**
  * Several utility methods.
  * 
  * @author MrSugarCaney
  */
 public class Util {
+
+	/**
+	 * Converts a collection of players to a readable string.
+	 * <p>
+	 * Each name is seperated by commas.
+	 * <p>
+	 * Example: <i>MrSugarCaney, PenguinJ2</i>
+	 * 
+	 * @param players
+	 *            Collection of player objects.
+	 * @return Formatted string.
+	 */
+	public static String toString(Collection<Player> players) {
+		StringBuilder sb = new StringBuilder();
+		
+		for (Player player : players) {
+			sb.append(player.getName());
+			sb.append(", ");
+		}
+		
+		sb.deleteCharAt(sb.length() - 1);
+		sb.deleteCharAt(sb.length() - 1);
+		
+		return sb.toString();
+	}
 
 	/**
 	 * Creates a new string with <i>length</i> times the character <i>c</i>.

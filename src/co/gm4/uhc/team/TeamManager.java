@@ -242,4 +242,8 @@ public class TeamManager {
 		}
 	}
 
+	public List<Team> getTeams() {
+		return teams;
+	}
+
 }

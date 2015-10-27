@@ -20,6 +20,7 @@ import co.gm4.uhc.team.RemoveCommand;
 import co.gm4.uhc.team.Team;
 import co.gm4.uhc.team.TeamColourCommand;
 import co.gm4.uhc.team.TeamCommand;
+import co.gm4.uhc.team.TeamListCommand;
 import co.gm4.uhc.team.TeamManager;
 
 /**
@@ -72,6 +73,7 @@ public class GM4UHC extends JavaPlugin {
 		getCommand("teamcolour").setExecutor(new TeamColourCommand(this));
 		getCommand("colours").setExecutor(new Help());
 		getCommand("remove").setExecutor(new RemoveCommand(this));
+		getCommand("teamlist").setExecutor(new TeamListCommand(this));
 	}
 
 	/**
@@ -164,7 +166,7 @@ public class GM4UHC extends JavaPlugin {
 			return ChatColor.DARK_RED;
 		}
 	}
-
+	
 	public TeamManager getTeamManager() {
 		return teamManager;
 	}
