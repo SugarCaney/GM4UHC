@@ -83,7 +83,7 @@ public class ChatFilter {
 		string = string.replace("ç", "c");
 		string = string.replace("ñ", "n");
 		string = string.replace("ß", "b");
-		string = string.replace("(ooo+)", "oo");
+		string = string.replaceAll("(ooo*)", "oo");
 
 		boolean contains = false;
 		for (String ban : banned) {
