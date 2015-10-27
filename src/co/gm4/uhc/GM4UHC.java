@@ -69,6 +69,7 @@ public class GM4UHC extends JavaPlugin {
 		getCommand("silence").setExecutor(silence);
 		getCommand("team").setExecutor(new TeamCommand(this));
 		getCommand("teamcolour").setExecutor(new TeamColourCommand(this));
+		getCommand("colours").setExecutor(new Help());
 	}
 
 	/**
@@ -132,7 +133,15 @@ public class GM4UHC extends JavaPlugin {
 			player.setPlayerListName(name);
 		}
 	}
-	
+
+	/**
+	 * Determines what colour the tab-heart should have given a specific health
+	 * amount.
+	 * 
+	 * @param health
+	 *            The amount of health.
+	 * @return The corresponding ChatColor.
+	 */
 	private ChatColor getHeartColor(int health) {
 		if (health >= 18) {
 			return ChatColor.DARK_GREEN;
