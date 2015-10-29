@@ -35,6 +35,22 @@ public class Help implements CommandExecutor {
 			return true;
 		}
 
+		// UHC
+		else if (label.equalsIgnoreCase("uhc")) {
+			sender.sendMessage(
+					ChatColor.DARK_GREEN + "" + ChatColor.BOLD + "GM4UHC Plugin by MrSugarCaney "
+							+ ChatColor.GREEN + "Made with love for the community <3");
+			return true;
+		}
+
+		// GM4
+		else if (label.equalsIgnoreCase("gm4")) {
+			sender.sendMessage(
+					ChatColor.DARK_GREEN + "" + ChatColor.BOLD + "Gamemode 4 by AccidentalGames "
+							+ ChatColor.GREEN + "Enhancing the vanilla gameplay experience");
+			return true;
+		}
+
 		return false;
 	}
 

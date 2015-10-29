@@ -92,13 +92,17 @@ public class GM4UHC extends JavaPlugin {
 		getCommand("silence").setExecutor(silence);
 		getCommand("team").setExecutor(new TeamCommand(this));
 		getCommand("teamcolour").setExecutor(new TeamColourCommand(this));
-		getCommand("colours").setExecutor(new Help());
 		getCommand("remove").setExecutor(new RemoveCommand(this));
 		getCommand("teamlist").setExecutor(new TeamListCommand(this));
 		getCommand("teamless").setExecutor(new TeamlessCommand(this));
 		getCommand("parseteams").setExecutor(new ParseCommand(this));
 		getCommand("autoteam").setExecutor(new AutoTeamCommand(this));
 		getCommand("start").setExecutor(new StartCommand(this));
+		
+		Help help = new Help();
+		getCommand("colours").setExecutor(help);
+		getCommand("uhc").setExecutor(help);
+		getCommand("gm4").setExecutor(help);
 	}
 
 	/**
