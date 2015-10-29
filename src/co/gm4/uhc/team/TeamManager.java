@@ -133,6 +133,8 @@ public class TeamManager {
 
 	/**
 	 * Looks for the team the given player is in.
+	 * <p>
+	 * Ignores player/team deaths.
 	 * 
 	 * @param player
 	 *            The player to check for.
@@ -144,24 +146,18 @@ public class TeamManager {
 			if (team.getPlayers().contains(player.getUniqueId())) {
 				return team;
 			}
+			
+			if (team.getDeaths().contains(player.getUniqueId())) {
+				return team;
+			}
 		}
-
-		return null;
-	}
-
-	/**
-	 * Looks for the team the given player is in.
-	 * <p>
-	 * Synchronized
-	 * 
-	 * @param player
-	 *            The player to check for.
-	 * @return The Team the given player is in, or <i>null</i> if the player has
-	 *         no team.
-	 */
-	public synchronized Team getAsyncTeamByPlayer(Player player) {
-		for (Team team : teams) {
-			if (team.getAsyncPlayers().contains(player.getUniqueId())) {
+		
+		for (Team team : removed) {
+			if (team.getPlayers().contains(player.getUniqueId())) {
+				return team;
+			}
+			
+			if (team.getDeaths().contains(player.getUniqueId())) {
 				return team;
 			}
 		}

@@ -42,7 +42,7 @@ public class DeathHandler implements Listener {
 		Team team = plugin.getTeamManager().getTeamByPlayer(player);
 
 		// Remove player from team.
-		team.remove(player);
+		team.die(player);
 		plugin.getTeamManager().removeEmptyTeams();
 
 		// Remove player from the match.
