@@ -15,6 +15,7 @@ import co.gm4.uhc.chat.MuteCommand;
 import co.gm4.uhc.chat.ShoutCommand;
 import co.gm4.uhc.chat.SilenceCommand;
 import co.gm4.uhc.game.CountdownFreeze;
+import co.gm4.uhc.game.DeathHandler;
 import co.gm4.uhc.game.DeathToSpectator;
 import co.gm4.uhc.game.GriefProtection;
 import co.gm4.uhc.game.Match;
@@ -118,6 +119,7 @@ public class GM4UHC extends JavaPlugin {
 		pm.registerEvents(new DeathToSpectator(this), this);
 		pm.registerEvents(new CountdownFreeze(this), this);
 		pm.registerEvents(new GriefProtection(this), this);
+		pm.registerEvents(new DeathHandler(this), this);
 	}
 
 	/**

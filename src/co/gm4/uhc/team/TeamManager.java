@@ -26,6 +26,11 @@ public class TeamManager {
 	 * List of all teams.
 	 */
 	private List<Team> teams = new ArrayList<>();
+	
+	/**
+	 * List of all removed teams.
+	 */
+	private List<Team> removed = new ArrayList<>();
 
 	/**
 	 * Removes the given player from their team.
@@ -240,7 +245,9 @@ public class TeamManager {
 	 */
 	public void removeEmptyTeams() {
 		for (Iterator<Team> it = teams.iterator(); it.hasNext();) {
-			if (it.next().getPlayers().isEmpty()) {
+			Team team = null;
+			if ((team = it.next()).getPlayers().isEmpty()) {
+				removed.add(team);
 				it.remove();
 			}
 		}
@@ -248,6 +255,10 @@ public class TeamManager {
 
 	public List<Team> getTeams() {
 		return teams;
+	}
+	
+	public List<Team> getRemoved() {
+		return removed;
 	}
 
 }

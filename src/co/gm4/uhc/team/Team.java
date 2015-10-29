@@ -34,6 +34,11 @@ public class Team {
 	private List<UUID> players = new ArrayList<>();
 
 	/**
+	 * List of all deaths.
+	 */
+	private List<UUID> deaths = new ArrayList<>();
+
+	/**
 	 * The display colour a team has.
 	 * <p>
 	 * Default: {@link ChatColor#WHITE}
@@ -100,21 +105,36 @@ public class Team {
 	public int getId() {
 		return id;
 	}
-	
+
 	public int size() {
 		return players.size();
 	}
-	
+
 	public boolean contains(Player player) {
 		return players.contains(player.getUniqueId());
 	}
-	
+
 	public boolean add(Player player) {
 		return players.add(player.getUniqueId());
 	}
-	
+
+	/**
+	 * Removes a player from the team and adds them to the dead player list.
+	 * 
+	 * @param player
+	 *            The player that dies.
+	 */
+	public void die(Player player) {
+		players.remove(player.getUniqueId());
+		deaths.add(player.getUniqueId());
+	}
+
 	public boolean remove(Player player) {
 		return players.remove(player.getUniqueId());
+	}
+
+	public List<UUID> getDeaths() {
+		return deaths;
 	}
 
 	@Override
