@@ -180,6 +180,7 @@ public class Match {
 	 */
 	public void start() {
 		setupWorld();
+		setGameRules();
 		
 		for (Team team : plugin.getTeamManager().getTeams()) {
 			players.addAll(team.getPlayers());
@@ -188,6 +189,16 @@ public class Match {
 		state = MatchState.RUNNING;
 		
 		plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () -> tick(), 20L);
+	}
+	
+	/**
+	 * Setup all the gamerules for UHC.
+	 */
+	public void setGameRules() {
+		World world = plugin.getServer().getWorld(plugin.getConfig().getString("world-name"));
+		world.setGameRuleValue("commandBlockOutput", "false");
+		world.setGameRuleValue("keepInventory", "false");
+		world.setGameRuleValue("naturalRegeneration", "false");
 	}
 
 	/**
