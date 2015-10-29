@@ -52,16 +52,25 @@ public class GM4UHC extends JavaPlugin {
 	 * Handling the ability to silence chat.
 	 */
 	private SilenceCommand silence = new SilenceCommand();
-	
+
 	/**
 	 * Class handling the use of foul language.
 	 */
 	private ChatFilter chatFilter;
-	
+
 	/**
 	 * The class containing all the data about the match.
 	 */
 	private Match match;
+
+	/**
+	 * Determines if players can join in survival mode.
+	 * <p>
+	 * When closed, players will automatically turn into spectators.
+	 * <p>
+	 * Default: <i>true</i>
+	 */
+	private boolean opened = true;
 
 	@Override
 	public void onEnable() {
@@ -69,7 +78,7 @@ public class GM4UHC extends JavaPlugin {
 		registerListeners();
 		registerCommands();
 		registerTasks();
-		
+
 		chatFilter = new ChatFilter(getConfig());
 		match = new Match(this);
 
@@ -100,7 +109,8 @@ public class GM4UHC extends JavaPlugin {
 		getCommand("parseteams").setExecutor(new ParseCommand(this));
 		getCommand("autoteam").setExecutor(new AutoTeamCommand(this));
 		getCommand("start").setExecutor(new StartCommand(this));
-		
+		getCommand("close").setExecutor(new CloseCommand(this));
+
 		Help help = new Help();
 		getCommand("colours").setExecutor(help);
 		getCommand("uhc").setExecutor(help);
@@ -120,6 +130,7 @@ public class GM4UHC extends JavaPlugin {
 		pm.registerEvents(new CountdownFreeze(this), this);
 		pm.registerEvents(new GriefProtection(this), this);
 		pm.registerEvents(new DeathHandler(this), this);
+		pm.registerEvents(new JoinLeaveListener(this), this);
 	}
 
 	/**
@@ -201,11 +212,11 @@ public class GM4UHC extends JavaPlugin {
 			return ChatColor.DARK_RED;
 		}
 	}
-	
+
 	public ChatFilter getChatFilter() {
 		return chatFilter;
 	}
-	
+
 	public TeamManager getTeamManager() {
 		return teamManager;
 	}
@@ -217,9 +228,17 @@ public class GM4UHC extends JavaPlugin {
 	public MuteCommand getMute() {
 		return mute;
 	}
-	
+
 	public Match getMatch() {
 		return match;
+	}
+	
+	public boolean isOpen() {
+		return opened;
+	}
+	
+	public void setOpen(boolean open) {
+		this.opened = open;
 	}
 
 }
