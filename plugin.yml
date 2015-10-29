@@ -1,7 +1,7 @@
 name: GM4UHC
 main: co.gm4.uhc.GM4UHC
 authors: [MrSugarCaney]
-version: '0.38'
+version: '0.39'
 description: >
              Gamemode 4 UHC plugin
 commands:
@@ -9,51 +9,65 @@ commands:
     description: Puts a given player in the first empty spot in a team.
     permission: uhc.mod
     aliases: [auto, tauto]
+    usage: /autoteam <player>
   parseteams:
     description: Reads the teams from the configuration file.
     permission: uhc.mod
     aliases: [parse, tparse]
+    usage: /parseteams
   teamless:
     description: Shows who aren't in a team.
     aliases: [tless, noteam]
+    usage: /teamless
   teamlist:
     description: Shows a list with all teams.
-    aliases: [tlist,tl]
+    aliases: [tlist, tl]
+    usage: /teamlist
   remove:
     description: Removes a player from their team.
     permission: uhc.mod
     aliases: [rem, tr]
+    usage: /remove <player>
   colours:
     description: Shows a list of all available colours and accents.
     permission: uhc.mod
     aliases: [colors, accents]
+    usage: /colours
   teamcolour:
-    description: Changes the colour of a player's team.
+    description: Changes the colour of a player's team. See also /colours for a list of colours and accents.
     permission: uhc.mod
     aliases: [tc, teamc, teamcolor, ta, teama, teamaccent]
+    usage: /teamcolour <player> <colour> [accent]
   team:
     description: Puts all the given players in a team.
     permission: uhc.mod
     aliases: [t]
+    usage: /team <player1> [player2] [player3] ... [playerN]
   silence:
     description: Only show mod messages.
+    usage: /silence
   mute:
     description: (Un)mutes a player.
     permission: uhc.mod
     aliases: [unmute]
+    usage: /mute <player>
   unmuteall:
     description: Unmutes all players.
     permission: uhc.mod
+    usage: /unmuteall
   mod:
     description: Send a message to all moderators.
     permission: uhc.mod
     aliases: [modmsg, modmail, mail]
+    usage: /mod <message>
   shout:
     description: Broadcast a message to all players.
     permission: uhc.mod
     aliases: [broadcast]
+    usage: /shout <message>
   uhc:
     description: Gamemode 4 UHC Help
-    permission: uhc.mod
+    usage: /uhc
   gm4:
     description: Gamemode 4 Info
+    usgae: /gm4
