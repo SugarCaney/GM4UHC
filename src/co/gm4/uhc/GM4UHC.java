@@ -18,6 +18,7 @@ import co.gm4.uhc.gameplay.PlayerJoinListener;
 import co.gm4.uhc.gameplay.PotionBanListener;
 import co.gm4.uhc.team.FriendlyFire;
 import co.gm4.uhc.team.ParseCommand;
+import co.gm4.uhc.team.AutoTeamCommand;
 import co.gm4.uhc.team.RemoveCommand;
 import co.gm4.uhc.team.Team;
 import co.gm4.uhc.team.TeamColourCommand;
@@ -86,6 +87,7 @@ public class GM4UHC extends JavaPlugin {
 		getCommand("teamlist").setExecutor(new TeamListCommand(this));
 		getCommand("teamless").setExecutor(new TeamlessCommand(this));
 		getCommand("parseteams").setExecutor(new ParseCommand(this));
+		getCommand("autoteam").setExecutor(new AutoTeamCommand(this));
 	}
 
 	/**

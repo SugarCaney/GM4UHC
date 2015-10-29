@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 
 import co.gm4.uhc.Util;
 
@@ -98,6 +99,22 @@ public class Team {
 
 	public int getId() {
 		return id;
+	}
+	
+	public int size() {
+		return players.size();
+	}
+	
+	public boolean contains(Player player) {
+		return players.contains(player.getUniqueId());
+	}
+	
+	public boolean add(Player player) {
+		return players.add(player.getUniqueId());
+	}
+	
+	public boolean remove(Player player) {
+		return players.remove(player.getUniqueId());
 	}
 
 	@Override

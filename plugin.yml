@@ -1,12 +1,17 @@
 name: GM4UHC
 main: co.gm4.uhc.GM4UHC
 authors: [MrSugarCaney]
-version: '0.37'
+version: '0.38'
 description: >
              Gamemode 4 UHC plugin
 commands:
+  autoteam:
+    description: Puts a given player in the first empty spot in a team.
+    permission: uhc.mod
+    aliases: [auto, tauto]
   parseteams:
     description: Reads the teams from the configuration file.
+    permission: uhc.mod
     aliases: [parse, tparse]
   teamless:
     description: Shows who aren't in a team.
