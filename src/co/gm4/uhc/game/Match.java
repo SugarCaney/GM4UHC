@@ -195,6 +195,7 @@ public class Match {
 				player.setLevel(0);
 				player.setFireTicks(0);
 				player.setFlying(false);
+				players.add(playerId);
 			}
 		}
 
