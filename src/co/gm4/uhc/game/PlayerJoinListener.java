@@ -1,4 +1,4 @@
-package co.gm4.uhc.gameplay;
+package co.gm4.uhc.game;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

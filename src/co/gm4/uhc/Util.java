@@ -14,6 +14,36 @@ import org.bukkit.OfflinePlayer;
 public class Util {
 
 	/**
+	 * Turns an amount of seconds into a countdown string.
+	 * <p>
+	 * ex1. 60 -> 1 minute <br>
+	 * ex2. 30 -> 30 seconds <br>
+	 * ex3. 10 -> 10 seconds <br>
+	 * ex4. 1 -> 1 second
+	 * 
+	 * @param seconds
+	 *            The amount of seconds left of the countdown.
+	 * @return The nicely formatted countdown string without starting and
+	 *         trailing spaces.
+	 */
+	public static String toCountdownString(int seconds) {
+		int sec = seconds % 60;
+
+		if (seconds >= 60) {
+			int min = seconds / 60;
+
+			String string = min + " minute" + (min == 1 ? "" : "s");
+			if (sec > 0) {
+				string += " and " + sec + " second" + (sec == 1 ? "" : "s");
+			}
+			return string;
+		}
+		else {
+			return sec + " second" + (sec == 1 ? "" : "s");
+		}
+	}
+
+	/**
 	 * Converts a collection of players to a readable string.
 	 * <p>
 	 * Each name is seperated by commas.
@@ -26,16 +56,16 @@ public class Util {
 	 */
 	public static String toString(Collection<UUID> players) {
 		StringBuilder sb = new StringBuilder();
-		
+
 		for (UUID playerId : players) {
 			OfflinePlayer player = Bukkit.getOfflinePlayer(playerId);
 			sb.append(player.getName());
 			sb.append(", ");
 		}
-		
+
 		sb.deleteCharAt(sb.length() - 1);
 		sb.deleteCharAt(sb.length() - 1);
-		
+
 		return sb.toString();
 	}
 

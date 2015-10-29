@@ -14,11 +14,12 @@ import co.gm4.uhc.chat.ModCommand;
 import co.gm4.uhc.chat.MuteCommand;
 import co.gm4.uhc.chat.ShoutCommand;
 import co.gm4.uhc.chat.SilenceCommand;
-import co.gm4.uhc.gameplay.PlayerJoinListener;
-import co.gm4.uhc.gameplay.PotionBanListener;
+import co.gm4.uhc.game.Match;
+import co.gm4.uhc.game.PlayerJoinListener;
+import co.gm4.uhc.game.PotionBanListener;
+import co.gm4.uhc.team.AutoTeamCommand;
 import co.gm4.uhc.team.FriendlyFire;
 import co.gm4.uhc.team.ParseCommand;
-import co.gm4.uhc.team.AutoTeamCommand;
 import co.gm4.uhc.team.RemoveCommand;
 import co.gm4.uhc.team.Team;
 import co.gm4.uhc.team.TeamColourCommand;
@@ -51,6 +52,11 @@ public class GM4UHC extends JavaPlugin {
 	 * Class handling the use of foul language.
 	 */
 	private ChatFilter chatFilter;
+	
+	/**
+	 * The class containing all the data about the match.
+	 */
+	private Match match;
 
 	@Override
 	public void onEnable() {
@@ -60,7 +66,10 @@ public class GM4UHC extends JavaPlugin {
 		registerTasks();
 		
 		chatFilter = new ChatFilter(getConfig());
+		match = new Match(this);
 
+		match.startCountdown();
+		
 		setTabNames();
 
 		getLogger().info("Plugin has been enabled!");
@@ -195,6 +204,10 @@ public class GM4UHC extends JavaPlugin {
 
 	public MuteCommand getMute() {
 		return mute;
+	}
+	
+	public Match getMatch() {
+		return match;
 	}
 
 }

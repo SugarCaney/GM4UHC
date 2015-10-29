@@ -1,4 +1,13 @@
 team-size: 2
+team-plot: 300
+world-size: auto
+world-name: world
+lobby-name: lobby
+grace-period: 900
+border-end: 250
+time-mark: 1200
+countdown: 10
+shrink-time: 90
 chat:
   caps-allowed: 0.3
   caps-ignore-length: 4
