@@ -61,8 +61,7 @@ public class Match {
 		}
 
 		try {
-			plugin.getServer().getWorld(plugin.getConfig().getString("world-name"))
-					.getWorldBorder();
+			plugin.getServer().getWorld(plugin.getConfig().getString("world-name")).setPVP(false);
 		}
 		catch (NullPointerException e) {
 			plugin.getLogger().log(Level.SEVERE, "<!!!> No/wrong world has been set up!");
@@ -102,9 +101,19 @@ public class Match {
 		// Time mark announcement
 		int mark = plugin.getConfig().getInt("time-mark");
 		if (timer % mark == 0) {
-			long minutes = timer / mark;
 			Bukkit.broadcastMessage(ChatColor.DARK_GREEN + "" + ChatColor.BOLD + ">> "
-					+ ChatColor.GREEN + "Mark " + minutes + " minutes");
+					+ ChatColor.GREEN + "Mark " + Util.toCountdownString((timer)));
+		}
+		
+		// Enable PVP at end of grace period.
+		int gracePeriod = plugin.getConfig().getInt("grace-period");
+		if (timer % gracePeriod == 0) {
+			plugin.getServer().getWorld(plugin.getConfig().getString("world-name")).setPVP(true);
+			
+			if (timer == gracePeriod) {
+				Bukkit.broadcastMessage(ChatColor.DARK_GREEN + "" + ChatColor.BOLD + ">> "
+					+ ChatColor.GREEN + "Grace period has ended!");
+			}
 		}
 	}
 
@@ -116,6 +125,7 @@ public class Match {
 	public void startCountdown() {
 		// Prepare stuff.
 		state = MatchState.PREPARING;
+		plugin.getServer().getWorld(plugin.getConfig().getString("world-name")).setPVP(false);
 		spreadPlayers();
 		
 		// Announce countdown.
@@ -188,7 +198,7 @@ public class Match {
 		
 		state = MatchState.RUNNING;
 		
-		plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () -> tick(), 20L);
+		plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, () -> tick(), 20L, 20L);
 	}
 	
 	/**

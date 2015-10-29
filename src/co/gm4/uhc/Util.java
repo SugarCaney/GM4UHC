@@ -26,11 +26,11 @@ public class Util {
 	 * @return The nicely formatted countdown string without starting and
 	 *         trailing spaces.
 	 */
-	public static String toCountdownString(int seconds) {
-		int sec = seconds % 60;
+	public static String toCountdownString(long seconds) {
+		long sec = seconds % 60;
 
 		if (seconds >= 60) {
-			int min = seconds / 60;
+			long min = seconds / 60;
 
 			String string = min + " minute" + (min == 1 ? "" : "s");
 			if (sec > 0) {
