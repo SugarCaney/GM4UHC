@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
+import org.bukkit.OfflinePlayer;
 
 /**
  * Several utility methods.
@@ -28,7 +28,7 @@ public class Util {
 		StringBuilder sb = new StringBuilder();
 		
 		for (UUID playerId : players) {
-			Player player = Bukkit.getPlayer(playerId);
+			OfflinePlayer player = Bukkit.getOfflinePlayer(playerId);
 			sb.append(player.getName());
 			sb.append(", ");
 		}
