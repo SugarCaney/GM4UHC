@@ -7,10 +7,13 @@ import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.WorldBorder;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import co.gm4.uhc.GM4UHC;
 import co.gm4.uhc.Util;
@@ -104,15 +107,15 @@ public class Match {
 			Bukkit.broadcastMessage(ChatColor.DARK_GREEN + "" + ChatColor.BOLD + ">> "
 					+ ChatColor.GREEN + "Mark " + Util.toCountdownString((timer)));
 		}
-		
+
 		// Enable PVP at end of grace period.
 		int gracePeriod = plugin.getConfig().getInt("grace-period");
 		if (timer % gracePeriod == 0) {
 			plugin.getServer().getWorld(plugin.getConfig().getString("world-name")).setPVP(true);
-			
+
 			if (timer == gracePeriod) {
 				Bukkit.broadcastMessage(ChatColor.DARK_GREEN + "" + ChatColor.BOLD + ">> "
-					+ ChatColor.GREEN + "Grace period has ended!");
+						+ ChatColor.GREEN + "Grace period has ended!");
 			}
 		}
 	}
@@ -126,8 +129,9 @@ public class Match {
 		// Prepare stuff.
 		state = MatchState.PREPARING;
 		plugin.getServer().getWorld(plugin.getConfig().getString("world-name")).setPVP(false);
+		setupWorld();
 		spreadPlayers();
-		
+
 		// Announce countdown.
 		int countdown = plugin.getConfig().getInt("countdown");
 		broadcastTime(countdown, countdown);
@@ -172,10 +176,38 @@ public class Match {
 			start();
 			Bukkit.broadcastMessage(ChatColor.DARK_GREEN + "" + ChatColor.BOLD + "START "
 					+ ChatColor.GREEN + "May the odds be ever in your favour!");
-		}, countdown * 20);
-		
+		} , countdown * 20);
+
+		// Clear stuff and add players to the matchlist.
+		for (Team team : plugin.getTeamManager().getTeams()) {
+			for (UUID playerId : team.getPlayers()) {
+				Player player = Bukkit.getPlayer(playerId);
+				player.setHealth(20);
+				player.setFoodLevel(20);
+				player.setSaturation(20);
+				player.setExhaustion(20);
+				player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE,
+						200 + countdown * 20, 100));
+				player.setGameMode(GameMode.SURVIVAL);
+				player.getInventory().clear();
+				player.getInventory().setArmorContents(null);
+				player.setExp(0);
+				player.setLevel(0);
+				player.setFireTicks(0);
+				player.setFlying(false);
+			}
+		}
+
 	}
 
+	/**
+	 * Show a countdown message.
+	 * 
+	 * @param countdown
+	 *            The length of the countdown in seconds.
+	 * @param seconds
+	 *            The amount of seconds left.
+	 */
 	private void broadcastTime(int countdown, int seconds) {
 		String template = ChatColor.DARK_GREEN + "" + ChatColor.BOLD + "COUNTDOWN "
 				+ ChatColor.GREEN + "%t until start!";
@@ -186,21 +218,16 @@ public class Match {
 	}
 
 	/**
-	 * TODO: Implement this method ^.^
+	 * Starts the match.
+	 * <p>
+	 * Finalises what startCountdown() does.
 	 */
 	public void start() {
-		setupWorld();
 		setGameRules();
-		
-		for (Team team : plugin.getTeamManager().getTeams()) {
-			players.addAll(team.getPlayers());
-		}
-		
 		state = MatchState.RUNNING;
-		
 		plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, () -> tick(), 20L, 20L);
 	}
-	
+
 	/**
 	 * Setup all the gamerules for UHC.
 	 */
@@ -271,7 +298,7 @@ public class Match {
 		int graceTime = plugin.getConfig().getInt("grace-period");
 		return timer < graceTime;
 	}
-	
+
 	public List<UUID> getPlayers() {
 		return players;
 	}
