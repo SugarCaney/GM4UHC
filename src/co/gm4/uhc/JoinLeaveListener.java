@@ -1,12 +1,15 @@
 package co.gm4.uhc;
 
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
+import co.gm4.uhc.chat.Broadcast;
+import co.gm4.uhc.game.MatchState;
 import co.gm4.uhc.team.Team;
 
 /**
@@ -35,8 +38,12 @@ public class JoinLeaveListener implements Listener {
 			String name = team.getChatColours() + player.getName() + ChatColor.YELLOW;
 			event.setJoinMessage(event.getJoinMessage().replace(player.getName(), name));
 		}
+		else if (!plugin.isOpen() || plugin.getMatch().getState() == MatchState.RUNNING) {
+			player.setGameMode(GameMode.SPECTATOR);
+			player.sendMessage(Broadcast.NOTIFICATION + "You are now spectating.");
+		}
 	}
-	
+
 	@EventHandler
 	public void onPlayerLeave(PlayerQuitEvent event) {
 		Player player = event.getPlayer();
