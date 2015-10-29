@@ -14,6 +14,7 @@ import co.gm4.uhc.chat.ModCommand;
 import co.gm4.uhc.chat.MuteCommand;
 import co.gm4.uhc.chat.ShoutCommand;
 import co.gm4.uhc.chat.SilenceCommand;
+import co.gm4.uhc.game.DeathToSpectator;
 import co.gm4.uhc.game.Match;
 import co.gm4.uhc.game.PlayerJoinListener;
 import co.gm4.uhc.game.PotionBanListener;
@@ -108,6 +109,7 @@ public class GM4UHC extends JavaPlugin {
 		pm.registerEvents(new ChatListener(this), this);
 		pm.registerEvents(new FriendlyFire(this), this);
 		pm.registerEvents(new PlayerJoinListener(this), this);
+		pm.registerEvents(new DeathToSpectator(this), this);
 	}
 
 	/**

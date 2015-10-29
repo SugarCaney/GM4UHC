@@ -7,7 +7,7 @@ grace-period: 900
 border-end: 250
 time-mark: 1200
 countdown: 10
-shrink-time: 90
+shrink-time: 5400
 chat:
   caps-allowed: 0.3
   caps-ignore-length: 4

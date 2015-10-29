@@ -14,6 +14,7 @@ import org.bukkit.entity.Player;
 
 import co.gm4.uhc.GM4UHC;
 import co.gm4.uhc.Util;
+import co.gm4.uhc.team.Team;
 
 /**
  * Class containing all the data about the match.
@@ -113,6 +114,11 @@ public class Match {
 	 * When the countdown has ended, {@link Match#starts()} will start.
 	 */
 	public void startCountdown() {
+		// Prepare stuff.
+		state = MatchState.PREPARING;
+		spreadPlayers();
+		
+		// Announce countdown.
 		int countdown = plugin.getConfig().getInt("countdown");
 		broadcastTime(countdown, countdown);
 
@@ -174,7 +180,22 @@ public class Match {
 	 */
 	public void start() {
 		setupWorld();
+		
+		for (Team team : plugin.getTeamManager().getTeams()) {
+			players.addAll(team.getPlayers());
+		}
+		
+		state = MatchState.RUNNING;
+		
 		plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, () -> tick(), 20L);
+	}
+
+	/**
+	 * TODO: implement.
+	 */
+	public void spreadPlayers() {
+		Bukkit.broadcastMessage(ChatColor.DARK_GREEN + "" + ChatColor.BOLD + "SPREAD "
+				+ ChatColor.GREEN + "Player spreading has started!");
 	}
 
 	/**
@@ -228,6 +249,10 @@ public class Match {
 	public boolean isGracePeriod() {
 		int graceTime = plugin.getConfig().getInt("grace-period");
 		return timer < graceTime;
+	}
+	
+	public List<UUID> getPlayers() {
+		return players;
 	}
 
 	public MatchState getState() {
