@@ -1,10 +1,14 @@
 name: GM4UHC
 main: co.gm4.uhc.GM4UHC
 authors: [MrSugarCaney]
-version: '0.41'
+version: '0.43'
 description: >
              Gamemode 4 UHC plugin
 commands:
+  start:
+    description: Starts the countdown and the match itself.
+    permission: uhc.mod
+    usage: /start
   autoteam:
     description: Puts a given player in the first empty spot in a team.
     permission: uhc.mod

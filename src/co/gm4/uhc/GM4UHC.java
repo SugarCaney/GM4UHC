@@ -18,6 +18,7 @@ import co.gm4.uhc.game.DeathToSpectator;
 import co.gm4.uhc.game.Match;
 import co.gm4.uhc.game.PlayerJoinListener;
 import co.gm4.uhc.game.PotionBanListener;
+import co.gm4.uhc.game.StartCommand;
 import co.gm4.uhc.team.AutoTeamCommand;
 import co.gm4.uhc.team.FriendlyFire;
 import co.gm4.uhc.team.ParseCommand;
@@ -69,8 +70,6 @@ public class GM4UHC extends JavaPlugin {
 		chatFilter = new ChatFilter(getConfig());
 		match = new Match(this);
 
-		match.startCountdown();
-		
 		setTabNames();
 
 		getLogger().info("Plugin has been enabled!");
@@ -98,6 +97,7 @@ public class GM4UHC extends JavaPlugin {
 		getCommand("teamless").setExecutor(new TeamlessCommand(this));
 		getCommand("parseteams").setExecutor(new ParseCommand(this));
 		getCommand("autoteam").setExecutor(new AutoTeamCommand(this));
+		getCommand("start").setExecutor(new StartCommand(this));
 	}
 
 	/**
