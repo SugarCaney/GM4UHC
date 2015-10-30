@@ -1,9 +1,9 @@
 name: GM4UHC
 main: co.gm4.uhc.GM4UHC
 authors: [MrSugarCaney]
-version: '0.52'
+version: '0.54'
 description: >
-             Gamemode 4 UHC plugins
+             Gamemode 4 UHC plugin
 commands:
   close:
     description: Closes the server; all players will be spectators.
