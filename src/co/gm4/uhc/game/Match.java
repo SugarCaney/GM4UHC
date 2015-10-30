@@ -208,7 +208,6 @@ public class Match {
 				players.add(playerId);
 			}
 		}
-
 	}
 
 	/**
@@ -235,6 +234,18 @@ public class Match {
 	 */
 	public void start() {
 		setGameRules();
+		
+		// Again a heal.
+		for (Team team : plugin.getTeamManager().getTeams()) {
+			for (UUID playerId : team.getPlayers()) {
+				Player player = Bukkit.getPlayer(playerId);
+				player.setHealth(20);
+				player.setFoodLevel(20);
+				player.setSaturation(20);
+				player.setExhaustion(20);
+			}
+		}
+		
 		state = MatchState.RUNNING;
 		plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, () -> tick(), 20L, 20L);
 	}

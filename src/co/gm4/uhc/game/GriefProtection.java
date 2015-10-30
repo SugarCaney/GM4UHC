@@ -30,8 +30,6 @@ public class GriefProtection implements Listener {
 	public void onInteract(PlayerInteractEvent event) {
 		Player player = event.getPlayer();
 		
-		plugin.getMatch().spreadPlayers();
-
 		if (player.hasPermission(Permission.MODERATOR)) {
 			return;
 		}
