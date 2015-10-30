@@ -201,6 +201,7 @@ public class Match {
 				Location loc = player.getLocation();
 				if (loc.getY() <= lavaLevel) {
 					player.setFireTicks(25);
+					player.damage(1);
 					player.sendMessage(ChatColor.DARK_RED + "" + ChatColor.BOLD + "LAVA "
 							+ ChatColor.GOLD + "You are being damaged by rising lava.");
 				}
