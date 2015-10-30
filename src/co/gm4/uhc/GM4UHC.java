@@ -5,6 +5,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
+import org.bukkit.WorldCreator;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
@@ -71,7 +73,7 @@ public class GM4UHC extends JavaPlugin {
 	 * The class containing all the data about the match.
 	 */
 	private Match match;
-	
+
 	/**
 	 * The lobby spawn.
 	 */
@@ -93,13 +95,14 @@ public class GM4UHC extends JavaPlugin {
 		chatFilter = new ChatFilter(getConfig());
 		match = new Match(this);
 
+		loadPlayingWorld();
 		registerListeners();
 		registerCommands();
 		registerTasks();
 		addRecipes();
-		
+
 		setTabNames();
-		
+
 		lobby = (Location)getConfig().get("lobby-location");
 
 		getLogger().info("Plugin has been enabled!");
@@ -108,6 +111,15 @@ public class GM4UHC extends JavaPlugin {
 	@Override
 	public void onDisable() {
 		getLogger().info("Plugin has been disabled!");
+	}
+
+	/**
+	 * Loads the 'normal' or playing world.
+	 */
+	private void loadPlayingWorld() {
+		String worldName = getConfig().getString("world-name");
+		Bukkit.getServer()
+				.createWorld(new WorldCreator(worldName).environment(World.Environment.NORMAL));
 	}
 
 	/**
@@ -253,11 +265,11 @@ public class GM4UHC extends JavaPlugin {
 	public Location getLobby() {
 		return lobby;
 	}
-	
+
 	public void setLobby(Location loc) {
 		lobby = loc;
 	}
-	
+
 	public ChatFilter getChatFilter() {
 		return chatFilter;
 	}
