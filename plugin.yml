@@ -1,10 +1,14 @@
 name: GM4UHC
 main: co.gm4.uhc.GM4UHC
 authors: [MrSugarCaney]
-version: '0.66'
+version: '0.67'
 description: >
              Gamemode 4 UHC plugin
 commands:
+  switch:
+    description: Teleport between lobby and world.
+    permission: uhc.mod
+    usage: /switch
   setlobby:
     description: Sets the location of the lobby spawn.
     permission: uhc.mod

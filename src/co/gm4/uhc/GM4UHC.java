@@ -143,6 +143,7 @@ public class GM4UHC extends JavaPlugin {
 		getCommand("die").setExecutor(new DieCommand(this));
 		getCommand("warn").setExecutor(new WarnCommand(this));
 		getCommand("setlobby").setExecutor(new SetLobbyCommand(this));
+		getCommand("switch").setExecutor(new SwitchCommand(this));
 
 		Help help = new Help();
 		getCommand("colours").setExecutor(help);

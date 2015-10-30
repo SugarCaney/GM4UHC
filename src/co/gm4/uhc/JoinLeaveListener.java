@@ -50,6 +50,8 @@ public class JoinLeaveListener implements Listener {
 		// Teleport to lobby.
 		if (plugin.getMatch().getState() == MatchState.LOBBY) {
 			player.teleport(plugin.getLobby());
+			player.getInventory().clear();
+			player.setGameMode(GameMode.SURVIVAL);
 		}
 	}
 
