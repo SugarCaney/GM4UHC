@@ -1,10 +1,14 @@
 name: GM4UHC
 main: co.gm4.uhc.GM4UHC
 authors: [MrSugarCaney]
-version: '0.64'
+version: '0.65'
 description: >
              Gamemode 4 UHC plugin
 commands:
+  setlobby:
+    description: Sets the location of the lobby spawn.
+    permission: uhc.mod
+    usage: /setlobby
   warn:
     description: Warns a player.
     permission: uhc.mod

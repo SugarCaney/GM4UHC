@@ -3,6 +3,7 @@ package co.gm4.uhc;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -29,6 +30,7 @@ import co.gm4.uhc.game.PotionBanListener;
 import co.gm4.uhc.game.SkullLogger;
 import co.gm4.uhc.game.StartCommand;
 import co.gm4.uhc.game.WarnCommand;
+import co.gm4.uhc.setup.SetLobbyCommand;
 import co.gm4.uhc.team.AutoTeamCommand;
 import co.gm4.uhc.team.FriendlyFire;
 import co.gm4.uhc.team.ParseCommand;
@@ -69,6 +71,11 @@ public class GM4UHC extends JavaPlugin {
 	 * The class containing all the data about the match.
 	 */
 	private Match match;
+	
+	/**
+	 * The lobby spawn.
+	 */
+	private Location lobby;
 
 	/**
 	 * Determines if players can join in survival mode.
@@ -90,8 +97,10 @@ public class GM4UHC extends JavaPlugin {
 		registerCommands();
 		registerTasks();
 		addRecipes();
-
+		
 		setTabNames();
+		
+		lobby = (Location)getConfig().get("lobby-location");
 
 		getLogger().info("Plugin has been enabled!");
 	}
@@ -121,6 +130,7 @@ public class GM4UHC extends JavaPlugin {
 		getCommand("close").setExecutor(new CloseCommand(this));
 		getCommand("die").setExecutor(new DieCommand(this));
 		getCommand("warn").setExecutor(new WarnCommand(this));
+		getCommand("setlobby").setExecutor(new SetLobbyCommand(this));
 
 		Help help = new Help();
 		getCommand("colours").setExecutor(help);
@@ -240,6 +250,14 @@ public class GM4UHC extends JavaPlugin {
 		}
 	}
 
+	public Location getLobby() {
+		return lobby;
+	}
+	
+	public void setLobby(Location loc) {
+		lobby = loc;
+	}
+	
 	public ChatFilter getChatFilter() {
 		return chatFilter;
 	}

@@ -46,6 +46,11 @@ public class JoinLeaveListener implements Listener {
 			player.setGameMode(GameMode.SPECTATOR);
 			player.sendMessage(Broadcast.NOTIFICATION + "You are now spectating.");
 		}
+		
+		// Teleport to lobby.
+		if (plugin.getMatch().getState() == MatchState.LOBBY) {
+			player.teleport(plugin.getLobby());
+		}
 	}
 
 	@EventHandler
