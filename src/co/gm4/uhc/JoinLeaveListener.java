@@ -35,6 +35,10 @@ public class JoinLeaveListener implements Listener {
 
 		// Add colours to join message.
 		if (team != null) {
+			if (team.getDeaths().contains(player.getUniqueId())) {
+				player.setGameMode(GameMode.SPECTATOR);
+			}
+			
 			String name = team.getChatColours() + player.getName() + ChatColor.YELLOW;
 			event.setJoinMessage(event.getJoinMessage().replace(player.getName(), name));
 		}
@@ -53,6 +57,10 @@ public class JoinLeaveListener implements Listener {
 		if (team != null) {
 			String name = team.getChatColours() + player.getName() + ChatColor.YELLOW;
 			event.setQuitMessage(event.getQuitMessage().replace(player.getName(), name));
+
+			if (!plugin.getMatch().getOffline().containsKey(player.getUniqueId())) {
+				plugin.getMatch().getOffline().put(player.getUniqueId(), 0);
+			}
 		}
 	}
 

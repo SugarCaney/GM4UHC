@@ -3,6 +3,7 @@ package co.gm4.uhc.game;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
 import java.util.UUID;
@@ -13,6 +14,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.WorldBorder;
 import org.bukkit.entity.Player;
@@ -39,6 +41,13 @@ public class Match {
 	 * A list of all players competing.
 	 */
 	private List<UUID> players = new ArrayList<>();
+
+	/**
+	 * Tracks how long players have been offline.
+	 * <p>
+	 * Longer than 5 minutes results into death.
+	 */
+	private Map<UUID, Integer> offline = new HashMap<>();
 
 	/**
 	 * The state of the match.
@@ -105,8 +114,6 @@ public class Match {
 
 	/**
 	 * Happens everytime a second has passed after the match has started.
-	 * 
-	 * TODO: Implement.
 	 */
 	private void tick() {
 		timer += 1;
@@ -126,6 +133,28 @@ public class Match {
 			if (timer == gracePeriod) {
 				Bukkit.broadcastMessage(ChatColor.DARK_GREEN + "" + ChatColor.BOLD + ">> "
 						+ ChatColor.GREEN + "Grace period has ended!");
+			}
+		}
+
+		// Offline players
+		for (UUID playerId : offline.keySet()) {
+			OfflinePlayer player = Bukkit.getOfflinePlayer(playerId);
+			if (player.isOnline()) {
+				continue;
+			}
+
+			int value = offline.get(playerId);
+			offline.put(playerId, value + 1);
+
+			if (value + 1 > plugin.getConfig().getInt("offline-time")) {
+				Team team = plugin.getTeamManager().getTeamByUUID(playerId);
+
+				if (team != null) {
+					team.die(playerId, plugin);
+					Bukkit.broadcastMessage(team.getChatColours() + player.getName()
+							+ ChatColor.YELLOW + " has lost due to offline time.");
+					offline.remove(playerId);
+				}
 			}
 		}
 	}
@@ -234,18 +263,21 @@ public class Match {
 	 */
 	public void start() {
 		setGameRules();
-		
+
 		// Again a heal.
 		for (Team team : plugin.getTeamManager().getTeams()) {
 			for (UUID playerId : team.getPlayers()) {
 				Player player = Bukkit.getPlayer(playerId);
+				if (player == null) {
+					continue;
+				}
 				player.setHealth(20);
 				player.setFoodLevel(20);
 				player.setSaturation(20);
 				player.setExhaustion(20);
 			}
 		}
-		
+
 		state = MatchState.RUNNING;
 		plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, () -> tick(), 20L, 20L);
 	}
@@ -261,7 +293,13 @@ public class Match {
 	}
 
 	/**
-	 * TODO: implement.
+	 * Spreads all the teams.
+	 * <p>
+	 * Players will be spread over an area with size of getSize()*getSize().
+	 * This method will also place obsidian and lily pads on/at water/lava to
+	 * make sure nobody gets hurt on the start. The players will be spread with
+	 * a certain minimum distance as set in the config (distance-threshold) in
+	 * percentage of the team plot.
 	 */
 	public void spreadPlayers() {
 		// Calculating positions.
@@ -415,6 +453,10 @@ public class Match {
 	public boolean isGracePeriod() {
 		int graceTime = plugin.getConfig().getInt("grace-period");
 		return timer < graceTime;
+	}
+
+	public Map<UUID, Integer> getOffline() {
+		return offline;
 	}
 
 	public List<UUID> getPlayers() {

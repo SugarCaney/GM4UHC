@@ -132,6 +132,40 @@ public class TeamManager {
 	}
 
 	/**
+	 * Looks for the team the given player ID is in.
+	 * <p>
+	 * Ignores player/team deaths.
+	 * 
+	 * @param id
+	 *            The player ID to check for.
+	 * @return The Team the given player is in, or <i>null</i> if the player has
+	 *         no team.
+	 */
+	public Team getTeamByUUID(UUID id) {
+		for (Team team : teams) {
+			if (team.getPlayers().contains(id)) {
+				return team;
+			}
+			
+			if (team.getDeaths().contains(id)) {
+				return team;
+			}
+		}
+		
+		for (Team team : removed) {
+			if (team.getPlayers().contains(id)) {
+				return team;
+			}
+			
+			if (team.getDeaths().contains(id)) {
+				return team;
+			}
+		}
+
+		return null;
+	}
+	
+	/**
 	 * Looks for the team the given player is in.
 	 * <p>
 	 * Ignores player/team deaths.

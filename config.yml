@@ -9,6 +9,8 @@ border-end: 250
 time-mark: 1200
 countdown: 10
 shrink-time: 5400
+lava-time: 900
+offline-time: 450
 chat:
   caps-allowed: 0.3
   caps-ignore-length: 4
