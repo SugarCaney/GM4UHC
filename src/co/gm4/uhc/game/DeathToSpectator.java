@@ -15,7 +15,7 @@ import co.gm4.uhc.team.Team;
 
 /**
  * Will automatically convert players who die to spectator mode when the game
- * has started.
+ * has started. It also modifies the death message.
  * 
  * @author MrSugarCaney
  */
@@ -29,27 +29,27 @@ public class DeathToSpectator implements Listener {
 	public DeathToSpectator(GM4UHC plugin) {
 		this.plugin = plugin;
 	}
-	
+
 	@EventHandler
 	public void onPlayerDie(PlayerDeathEvent event) {
-		if (plugin.getMatch().getState() != MatchState.RUNNING) { 
+		if (plugin.getMatch().getState() != MatchState.RUNNING) {
 			return;
 		}
-		
+
 		Player player = (Player)event.getEntity();
 		player.setGameMode(GameMode.SPECTATOR);
 		player.setHealth(20);
-		
+
 		String message = event.getDeathMessage();
-		
+
 		for (UUID playerId : plugin.getMatch().getPlayers()) {
 			Player p = Bukkit.getPlayer(playerId);
 			Team t = plugin.getTeamManager().getTeamByPlayer(p);
-			String name = t.getChatColours() + p.getName() + ChatColor.RESET;
-			
+			String name = t.getChatColours() + p.getName() + ChatColor.YELLOW;
+
 			message = message.replace(p.getName(), name);
 		}
-		
+
 		event.setDeathMessage(message);
 	}
 
