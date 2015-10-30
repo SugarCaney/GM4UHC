@@ -3,9 +3,13 @@ package co.gm4.uhc;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitScheduler;
 
 import co.gm4.uhc.chat.ChatFilter;
@@ -75,12 +79,14 @@ public class GM4UHC extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		saveDefaultConfig();
-		registerListeners();
-		registerCommands();
-		registerTasks();
 
 		chatFilter = new ChatFilter(getConfig());
 		match = new Match(this);
+
+		registerListeners();
+		registerCommands();
+		registerTasks();
+		addRecipes();
 
 		setTabNames();
 
@@ -134,6 +140,17 @@ public class GM4UHC extends JavaPlugin {
 	}
 
 	/**
+	 * Adds all custom recipes.
+	 */
+	public void addRecipes() {
+		// Add skull to golden apple recipe.
+		getServer().addRecipe(new ShapedRecipe(new ItemStack(Material.GOLDEN_APPLE, 1))
+				.shape("NNN", "NSN", "NNN").setIngredient('N', Material.GOLD_NUGGET)
+				.setIngredient('S', Material.SKULL_ITEM)
+				.setIngredient('S', new ItemStack(Material.SKULL_ITEM, 1, (short)3).getData()));
+	}
+
+	/**
 	 * Registers all the reoccuring events.
 	 */
 	public void registerTasks() {
@@ -176,7 +193,11 @@ public class GM4UHC extends JavaPlugin {
 				// Add health.
 				if (player.getGameMode() == GameMode.SURVIVAL) {
 					int health = (int)player.getHealth();
-					name += getHeartColor(health) + " ❤" + ChatColor.YELLOW + health;
+					boolean absorp = player.hasPotionEffect(PotionEffectType.ABSORPTION);
+					boolean regen = player.hasPotionEffect(PotionEffectType.REGENERATION);
+					String numberColour = (regen ? ChatColor.GREEN : ChatColor.YELLOW) + "";
+					name += getHeartColor(health) + " ❤" + numberColour + health
+							+ (absorp ? "+" : "");
 				}
 			}
 
@@ -232,11 +253,11 @@ public class GM4UHC extends JavaPlugin {
 	public Match getMatch() {
 		return match;
 	}
-	
+
 	public boolean isOpen() {
 		return opened;
 	}
-	
+
 	public void setOpen(boolean open) {
 		this.opened = open;
 	}
