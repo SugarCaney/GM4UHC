@@ -21,6 +21,7 @@ import co.gm4.uhc.chat.SilenceCommand;
 import co.gm4.uhc.game.CountdownFreeze;
 import co.gm4.uhc.game.DeathHandler;
 import co.gm4.uhc.game.DeathToSpectator;
+import co.gm4.uhc.game.DieCommand;
 import co.gm4.uhc.game.GriefProtection;
 import co.gm4.uhc.game.Match;
 import co.gm4.uhc.game.PlayerJoinListener;
@@ -116,6 +117,7 @@ public class GM4UHC extends JavaPlugin {
 		getCommand("autoteam").setExecutor(new AutoTeamCommand(this));
 		getCommand("start").setExecutor(new StartCommand(this));
 		getCommand("close").setExecutor(new CloseCommand(this));
+		getCommand("die").setExecutor(new DieCommand(this));
 
 		Help help = new Help();
 		getCommand("colours").setExecutor(help);

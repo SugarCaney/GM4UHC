@@ -7,10 +7,11 @@ lobby-name: lobby
 grace-period: 900
 border-end: 250
 time-mark: 1200
-countdown: 10
+countdown: 120
 shrink-time: 5400
 lava-time: 900
 offline-time: 450
+warnings: 3
 chat:
   caps-allowed: 0.3
   caps-ignore-length: 4

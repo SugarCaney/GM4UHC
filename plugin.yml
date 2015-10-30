@@ -1,10 +1,14 @@
 name: GM4UHC
 main: co.gm4.uhc.GM4UHC
 authors: [MrSugarCaney]
-version: '0.60'
+version: '0.61'
 description: >
              Gamemode 4 UHC plugin
 commands:
+  die:
+    description: Removes a player from the game.
+    permission: uhc.mod
+    usage: /die <player> <reason>
   close:
     description: Closes the server; all players will be spectators.
     permission: uhc.mod

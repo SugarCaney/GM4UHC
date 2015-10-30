@@ -271,6 +271,7 @@ public class Match {
 				if (player == null) {
 					continue;
 				}
+				
 				player.setHealth(20);
 				player.setFoodLevel(20);
 				player.setSaturation(20);

@@ -133,6 +133,7 @@ public class Team {
 		deaths.add(player);
 		
 		plugin.getTeamManager().removeEmptyTeams();
+		plugin.getMatch().getOffline().remove(player);
 
 		// Remove player from the match.
 		plugin.getMatch().getPlayers().remove(player);
