@@ -1,7 +1,10 @@
 package co.gm4.uhc.game;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.Random;
 import java.util.UUID;
 import java.util.logging.Level;
 
@@ -9,6 +12,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.WorldBorder;
 import org.bukkit.entity.Player;
@@ -77,11 +81,8 @@ public class Match {
 	 * e.g. setup the world border.
 	 */
 	private void setupWorld() {
-		int teamCount = plugin.getTeamManager().getTeams().size();
-		int teamSpace = plugin.getConfig().getInt("team-plot");
-
 		// Determine world size.
-		int size = (int)Math.sqrt(teamCount * teamSpace * teamSpace);
+		int size = getSize();
 
 		// Setup world border.
 		String worldName = plugin.getConfig().getString("world-name");
@@ -91,6 +92,15 @@ public class Match {
 		border.setCenter(centre);
 		border.setSize(size);
 		border.setWarningTime(30);
+	}
+
+	/**
+	 * Calculates the size of the arena.
+	 */
+	public int getSize() {
+		int teamCount = plugin.getTeamManager().getTeams().size();
+		int teamSpace = plugin.getConfig().getInt("team-plot");
+		return (int)Math.sqrt(teamCount * teamSpace * teamSpace);
 	}
 
 	/**
@@ -243,8 +253,104 @@ public class Match {
 	 * TODO: implement.
 	 */
 	public void spreadPlayers() {
+		// Calculating positions.
 		Bukkit.broadcastMessage(ChatColor.DARK_GREEN + "" + ChatColor.BOLD + "SPREAD "
-				+ ChatColor.GREEN + "Player spreading has started!");
+				+ ChatColor.GREEN + "Calculating positions. This may take a while.");
+
+		Random ran = new Random();
+		int size = getSize();
+		int distanceThreshold = (int)(plugin.getConfig().getDouble("distance-threshold")
+				* plugin.getConfig().getInt("team-plot"));
+		Location centre = plugin.getServer().getWorld(plugin.getConfig().getString("world-name"))
+				.getSpawnLocation();
+		int maxX = (int)(centre.getX() + size / 2) - 5;
+		int minX = (int)(centre.getX() - size / 2) + 5;
+		int maxZ = (int)(centre.getZ() + size / 2) - 5;
+		int minZ = (int)(centre.getZ() - size / 2) + 5;
+		World world = centre.getWorld();
+
+		List<Team> teams = plugin.getTeamManager().getTeams();
+		HashMap<Team, Location> places = new HashMap<>();
+		boolean correctLocations = false;
+
+		while (!correctLocations) {
+			// Reset places.
+			places.clear();
+
+			// Randomly pick location.
+			for (Team team : teams) {
+				double x = Util.randomRange(minX, maxX, ran) + 0.5;
+				double z = Util.randomRange(minZ, maxZ, ran) + 0.5;
+				int y = world.getHighestBlockYAt((int)x, (int)z) + 1;
+				Location loc = new Location(centre.getWorld(), x, y, z);
+				places.put(team, loc);
+			}
+
+			// Check if places are valid.
+			correctLocations = true;
+			placeCheck: for (Entry<Team, Location> ent : places.entrySet()) {
+				for (Team team : teams) {
+					if (team.equals(ent.getKey())) {
+						continue;
+					}
+
+					Location loc1 = ent.getValue();
+					Location loc2 = places.get(team);
+					double dist = Util.distance(loc1, loc2);
+
+					if (dist < distanceThreshold) {
+						correctLocations = false;
+						break placeCheck;
+					}
+				}
+			}
+		}
+
+		// Preparing teleport locations.
+		Bukkit.broadcastMessage(ChatColor.DARK_GREEN + "" + ChatColor.BOLD + "SPREAD "
+				+ ChatColor.GREEN + "Preparing teleport locations.");
+
+		for (Location loc : places.values()) {
+			Location check = new Location(loc.getWorld(), loc.getX(), loc.getY() - 2, loc.getZ());
+			if (check.getBlock().getType() == Material.WATER
+					|| check.getBlock().getType() == Material.STATIONARY_WATER) {
+				loc.clone().add(0, -1, 0).getBlock().setType(Material.WATER_LILY);
+			}
+
+			if (check.getBlock().getType() == Material.LAVA
+					|| check.getBlock().getType() == Material.STATIONARY_LAVA) {
+				check.getBlock().setType(Material.OBSIDIAN);
+			}
+
+			if (loc.clone().add(0, -2, 0).getBlock().getType() == Material.LAVA
+					|| loc.clone().add(0, -2, 0).getBlock().getType() == Material.STATIONARY_LAVA) {
+				loc.clone().add(0, -2, 0).getBlock().setType(Material.OBSIDIAN);
+			}
+
+			if (loc.clone().add(0, -1, 0).getBlock().getType() == Material.LAVA
+					|| loc.clone().add(0, -1, 0).getBlock().getType() == Material.STATIONARY_LAVA) {
+				loc.clone().add(0, -1, 0).getBlock().setType(Material.OBSIDIAN);
+			}
+
+			if (check.getBlock().getType() == Material.CACTUS) {
+				check.clone().add(0, 1, 0).getBlock().setType(Material.CARPET);
+			}
+
+			if (loc.clone().add(0, -1, 0).getBlock().getType() == Material.CACTUS) {
+				loc.getBlock().setType(Material.CARPET);
+			}
+		}
+
+		// Teleporting
+		Bukkit.broadcastMessage(ChatColor.DARK_GREEN + "" + ChatColor.BOLD + "SPREAD "
+				+ ChatColor.GREEN + "Teleporting players.");
+
+		for (Entry<Team, Location> ent : places.entrySet()) {
+			for (UUID playerId : ent.getKey().getPlayers()) {
+				Player player = Bukkit.getPlayer(playerId);
+				player.teleport(ent.getValue());
+			}
+		}
 	}
 
 	/**

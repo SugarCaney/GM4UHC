@@ -1,9 +1,11 @@
 package co.gm4.uhc;
 
 import java.util.Collection;
+import java.util.Random;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 
 /**
@@ -12,6 +14,37 @@ import org.bukkit.OfflinePlayer;
  * @author MrSugarCaney
  */
 public class Util {
+
+	/**
+	 * Calculates the absolute distance between two locations.
+	 * 
+	 * @param loc1
+	 *            First location.
+	 * @param loc2
+	 *            Second location.
+	 * @return The distance between the points in meters.
+	 */
+	public static double distance(Location loc1, Location loc2) {
+		double dx2 = Math.pow(Math.abs(loc1.getX() - loc2.getX()), 2);
+		double dy2 = Math.pow(Math.abs(loc1.getY() - loc2.getY()), 2);
+		double dz2 = Math.pow(Math.abs(loc1.getZ() - loc2.getZ()), 2);
+		return Math.sqrt(dx2 + dy2 + dz2);
+	}
+
+	/**
+	 * Gives a new integer between lower and upper.
+	 * 
+	 * @param lower
+	 *            The lower bound.
+	 * @param upper
+	 *            The upper bound.
+	 * @param ran
+	 *            Random object to use.
+	 * @return A random number n with lower<=n<=upper.
+	 */
+	public static int randomRange(int lower, int upper, Random ran) {
+		return lower + ran.nextInt(upper - lower + 1);
+	}
 
 	/**
 	 * Turns an amount of seconds into a countdown string.

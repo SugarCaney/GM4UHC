@@ -1,5 +1,6 @@
 team-size: 2
 team-plot: 300
+distance-threshold: 0.75
 world-size: auto
 world-name: world
 lobby-name: lobby
