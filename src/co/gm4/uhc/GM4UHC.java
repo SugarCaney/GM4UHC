@@ -26,6 +26,7 @@ import co.gm4.uhc.game.GriefProtection;
 import co.gm4.uhc.game.Match;
 import co.gm4.uhc.game.PlayerJoinListener;
 import co.gm4.uhc.game.PotionBanListener;
+import co.gm4.uhc.game.SkullLogger;
 import co.gm4.uhc.game.StartCommand;
 import co.gm4.uhc.game.WarnCommand;
 import co.gm4.uhc.team.AutoTeamCommand;
@@ -141,6 +142,7 @@ public class GM4UHC extends JavaPlugin {
 		pm.registerEvents(new GriefProtection(this), this);
 		pm.registerEvents(new DeathHandler(this), this);
 		pm.registerEvents(new JoinLeaveListener(this), this);
+		pm.registerEvents(new SkullLogger(this), this);
 	}
 
 	/**

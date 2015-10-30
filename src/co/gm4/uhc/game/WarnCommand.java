@@ -77,7 +77,7 @@ public class WarnCommand implements CommandExecutor {
 				+ "/" + allowedWarnings + ChatColor.RED + " You have been warned by "
 				+ sender.getName() + ": " + reason);
 		sender.sendMessage(Broadcast.SUCCESS_PREFIX + player.getName() + " now has " + warns.get(id)
-				+ " warnings.");
+				+ " warning" + (warns.get(id) == 1 ? "." : "s."));
 
 		plugin.getLogger().info(player.getName() + " has received warning #" + warns.get(id)
 				+ " from " + sender.getName());
