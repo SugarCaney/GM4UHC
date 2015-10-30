@@ -63,7 +63,7 @@ public class DieCommand implements CommandExecutor {
 
 		team.die(player.getUniqueId(), plugin);
 		Bukkit.broadcastMessage(team.getChatColours() + player.getName() + ChatColor.YELLOW
-				+ " executed by MOD " + sender.getName() + " (Reason: " + reason + ")");
+				+ " executed by mod " + sender.getName() + " (Reason: " + reason + ")");
 
 		return true;
 	}

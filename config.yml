@@ -10,6 +10,7 @@ time-mark: 1200
 countdown: 120
 shrink-time: 5400
 lava-time: 900
+lava-max: 70
 offline-time: 450
 warnings: 3
 chat:

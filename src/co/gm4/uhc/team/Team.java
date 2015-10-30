@@ -6,7 +6,10 @@ import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.SkullMeta;
 
 import co.gm4.uhc.GM4UHC;
 import co.gm4.uhc.Util;
@@ -131,6 +134,16 @@ public class Team {
 	public void die(UUID player, GM4UHC plugin) {
 		players.remove(player);
 		deaths.add(player);
+		
+		// Drop skull.
+		Player p = Bukkit.getPlayer(player);
+		if (p != null) {
+			ItemStack head = new ItemStack(Material.SKULL_ITEM, 1, (short)3);
+			SkullMeta meta = (SkullMeta)head.getItemMeta();
+			meta.setOwner(p.getName());
+			head.setItemMeta(meta);
+			p.getWorld().dropItem(p.getLocation(), head);
+		}
 		
 		plugin.getTeamManager().removeEmptyTeams();
 		plugin.getMatch().getOffline().remove(player);

@@ -48,7 +48,7 @@ public class Match {
 	 * Longer than 5 minutes results into death.
 	 */
 	private Map<UUID, Integer> offline = new HashMap<>();
-	
+
 	/**
 	 * Tracks the amount of warnings.
 	 */
@@ -65,6 +65,13 @@ public class Match {
 	 * The amount of seconds that have passed since the start of the match.
 	 */
 	private long timer = 0L;
+
+	/**
+	 * Tracks the height of the lava.
+	 * <p>
+	 * Default: <i>0</i>
+	 */
+	private int lavaLevel = 0;
 
 	/**
 	 * The worldborder of the match world.
@@ -106,6 +113,8 @@ public class Match {
 		border.setCenter(centre);
 		border.setSize(size);
 		border.setWarningTime(30);
+		
+		world.setTime(0);
 	}
 
 	/**
@@ -132,12 +141,16 @@ public class Match {
 
 		// Enable PVP at end of grace period.
 		int gracePeriod = plugin.getConfig().getInt("grace-period");
+		int shrinkTime = plugin.getConfig().getInt("shrink-time");
 		if (timer % gracePeriod == 0) {
 			plugin.getServer().getWorld(plugin.getConfig().getString("world-name")).setPVP(true);
 
 			if (timer == gracePeriod) {
-				Bukkit.broadcastMessage(ChatColor.DARK_GREEN + "" + ChatColor.BOLD + ">> "
-						+ ChatColor.GREEN + "Grace period has ended!");
+				Bukkit.broadcastMessage(
+						ChatColor.DARK_GREEN + "" + ChatColor.BOLD + ">> " + ChatColor.GREEN
+								+ "Grace period has ended and the border has started shrinking!");
+
+				border.setSize(plugin.getConfig().getInt("border-end"), shrinkTime);
 			}
 		}
 
@@ -159,6 +172,37 @@ public class Match {
 					Bukkit.broadcastMessage(team.getChatColours() + player.getName()
 							+ ChatColor.YELLOW + " has lost due to offline time.");
 					offline.remove(playerId);
+				}
+			}
+		}
+
+		// Rise lava
+		int lavaTime = plugin.getConfig().getInt("lava-time");
+		int lavaTop = plugin.getConfig().getInt("lava-max");
+		int startLava = gracePeriod + shrinkTime;
+		int secondsPerLava = (int)((float)lavaTime / (float)lavaTop);
+
+		if (timer == startLava) {
+			Bukkit.broadcastMessage(ChatColor.DARK_RED + "" + ChatColor.BOLD + "LAVA "
+					+ ChatColor.GOLD + "Lava has started rising.");
+		}
+
+		if (timer > startLava) {
+			if ((timer - startLava) % secondsPerLava == 0
+					&& startLava < plugin.getConfig().getInt("lava-max")) {
+				lavaLevel++;
+
+				Bukkit.broadcastMessage(ChatColor.DARK_RED + "" + ChatColor.BOLD + "LAVA "
+						+ ChatColor.GOLD + "The lava has risen to level " + lavaLevel + ".");
+			}
+
+			for (UUID playerId : players) {
+				Player player = Bukkit.getPlayer(playerId);
+				Location loc = player.getLocation();
+				if (loc.getY() <= lavaLevel) {
+					player.setFireTicks(25);
+					player.sendMessage(ChatColor.DARK_RED + "" + ChatColor.BOLD + "LAVA "
+							+ ChatColor.GOLD + "You are being damaged by rising lava.");
 				}
 			}
 		}
@@ -220,6 +264,9 @@ public class Match {
 			start();
 			Bukkit.broadcastMessage(ChatColor.DARK_GREEN + "" + ChatColor.BOLD + "START "
 					+ ChatColor.GREEN + "May the odds be ever in your favour!");
+			Bukkit.broadcastMessage(ChatColor.DARK_GREEN + "" + ChatColor.BOLD + ">> "
+					+ ChatColor.GREEN + "The grace period will last "
+					+ Util.toCountdownString(plugin.getConfig().getInt("grace-period")));
 		} , countdown * 20);
 
 		// Clear stuff and add players to the matchlist.
@@ -276,7 +323,7 @@ public class Match {
 				if (player == null) {
 					continue;
 				}
-				
+
 				player.setHealth(20);
 				player.setFoodLevel(20);
 				player.setSaturation(20);
@@ -289,13 +336,14 @@ public class Match {
 	}
 
 	/**
-	 * Setup all the gamerules for UHC.
+	 * Setup all the gamerules for UHC. Plus the time hehe.
 	 */
 	public void setGameRules() {
 		World world = plugin.getServer().getWorld(plugin.getConfig().getString("world-name"));
 		world.setGameRuleValue("commandBlockOutput", "false");
 		world.setGameRuleValue("keepInventory", "false");
 		world.setGameRuleValue("naturalRegeneration", "false");
+		world.setTime(20);
 	}
 
 	/**
@@ -464,7 +512,7 @@ public class Match {
 	public Map<UUID, Integer> getWarnings() {
 		return warnings;
 	}
-	
+
 	public Map<UUID, Integer> getOffline() {
 		return offline;
 	}

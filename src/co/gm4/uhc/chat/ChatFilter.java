@@ -83,6 +83,8 @@ public class ChatFilter {
 		string = string.replace("ç", "c");
 		string = string.replace("ñ", "n");
 		string = string.replace("ß", "b");
+		string = string.replace("><", "x");
+		string = string.replace("|<", "k");
 		string = string.replaceAll("(ooo*)", "oo");
 		string = string.replaceAll("(aa*)", "a");
 		string = string.replaceAll("(ii*)", "i");
