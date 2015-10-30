@@ -1,10 +1,14 @@
 name: GM4UHC
 main: co.gm4.uhc.GM4UHC
 authors: [MrSugarCaney]
-version: '0.62'
+version: '0.63'
 description: >
              Gamemode 4 UHC plugin
 commands:
+  warn:
+    description: Warns a player.
+    permission: uhc.mod
+    usage: /warn <player> <reason>
   die:
     description: Removes a player from the game.
     permission: uhc.mod

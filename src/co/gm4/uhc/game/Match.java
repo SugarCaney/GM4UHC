@@ -48,6 +48,11 @@ public class Match {
 	 * Longer than 5 minutes results into death.
 	 */
 	private Map<UUID, Integer> offline = new HashMap<>();
+	
+	/**
+	 * Tracks the amount of warnings.
+	 */
+	private Map<UUID, Integer> warnings = new HashMap<>();
 
 	/**
 	 * The state of the match.
@@ -456,6 +461,10 @@ public class Match {
 		return timer < graceTime;
 	}
 
+	public Map<UUID, Integer> getWarnings() {
+		return warnings;
+	}
+	
 	public Map<UUID, Integer> getOffline() {
 		return offline;
 	}

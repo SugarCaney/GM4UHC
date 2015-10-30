@@ -27,6 +27,7 @@ import co.gm4.uhc.game.Match;
 import co.gm4.uhc.game.PlayerJoinListener;
 import co.gm4.uhc.game.PotionBanListener;
 import co.gm4.uhc.game.StartCommand;
+import co.gm4.uhc.game.WarnCommand;
 import co.gm4.uhc.team.AutoTeamCommand;
 import co.gm4.uhc.team.FriendlyFire;
 import co.gm4.uhc.team.ParseCommand;
@@ -118,6 +119,7 @@ public class GM4UHC extends JavaPlugin {
 		getCommand("start").setExecutor(new StartCommand(this));
 		getCommand("close").setExecutor(new CloseCommand(this));
 		getCommand("die").setExecutor(new DieCommand(this));
+		getCommand("warn").setExecutor(new WarnCommand(this));
 
 		Help help = new Help();
 		getCommand("colours").setExecutor(help);

@@ -1,5 +1,8 @@
 package co.gm4.uhc.game;
 
+import java.util.Map;
+import java.util.UUID;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -13,20 +16,21 @@ import co.gm4.uhc.chat.Broadcast;
 import co.gm4.uhc.team.Team;
 
 /**
- * Removes a player from the game.
+ * Gives a player a warning. When a player has a set amount of warnings they
+ * will get auto banned.
  * <p>
- * Usage: /die [player]
+ * Usage: /warn [player] [reason]
  * 
  * @author MrSugarCaney
  */
-public class DieCommand implements CommandExecutor {
+public class WarnCommand implements CommandExecutor {
 
 	/**
 	 * Main instance of the plugin.
 	 */
 	private GM4UHC plugin;
 
-	public DieCommand(GM4UHC plugin) {
+	public WarnCommand(GM4UHC plugin) {
 		this.plugin = plugin;
 	}
 
@@ -34,7 +38,7 @@ public class DieCommand implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if (args.length < 2) {
-			sender.sendMessage(Broadcast.ERROR_PREFIX + "Usage: /die <player> <reason>");
+			sender.sendMessage(Broadcast.ERROR_PREFIX + "Usage: /warn <player> <reason>");
 			return true;
 		}
 
@@ -59,11 +63,31 @@ public class DieCommand implements CommandExecutor {
 		String reason = sb.toString().trim();
 		reason = reason.replaceAll("&", ChatColor.COLOR_CHAR + "");
 
-		player.setGameMode(GameMode.SPECTATOR);
+		// Update warnings'
+		UUID id = player.getUniqueId();
+		Map<UUID, Integer> warns = plugin.getMatch().getWarnings();
+		int allowedWarnings = plugin.getConfig().getInt("warnings");
 
-		team.die(player.getUniqueId(), plugin);
-		Bukkit.broadcastMessage(team.getChatColours() + player.getName() + ChatColor.YELLOW
-				+ " executed by MOD " + sender.getName() + " (Reason: " + reason + ")");
+		if (!warns.containsKey(id)) {
+			warns.put(id, 0);
+		}
+		warns.put(id, warns.get(id) + 1);
+
+		player.sendMessage(ChatColor.DARK_RED + "" + ChatColor.BOLD + "WARNING " + warns.get(id)
+				+ "/" + allowedWarnings + ChatColor.RED + " You have been warned by "
+				+ sender.getName() + ": " + reason);
+		sender.sendMessage(Broadcast.SUCCESS_PREFIX + player.getName() + " now has " + warns.get(id)
+				+ " warnings.");
+
+		plugin.getLogger().info(player.getName() + " has received warning #" + warns.get(id)
+				+ " from " + sender.getName());
+
+		if (warns.get(id) == allowedWarnings) {
+			team.die(player.getUniqueId(), plugin);
+			Bukkit.broadcastMessage(team.getChatColours() + player.getName() + ChatColor.YELLOW
+					+ " was executed due to too many warnings.");
+			player.setGameMode(GameMode.SPECTATOR);
+		}
 
 		return true;
 	}
