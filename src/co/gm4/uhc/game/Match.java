@@ -113,7 +113,7 @@ public class Match {
 		border.setCenter(centre);
 		border.setSize(size);
 		border.setWarningTime(30);
-		
+
 		world.setTime(0);
 	}
 
@@ -220,6 +220,8 @@ public class Match {
 		plugin.getServer().getWorld(plugin.getConfig().getString("world-name")).setPVP(false);
 		setupWorld();
 		spreadPlayers();
+		setSpectatorMode();
+		teleportSpectators();
 
 		// Announce countdown.
 		int countdown = plugin.getConfig().getInt("countdown");
@@ -345,6 +347,35 @@ public class Match {
 		world.setGameRuleValue("keepInventory", "false");
 		world.setGameRuleValue("naturalRegeneration", "false");
 		world.setTime(20);
+	}
+
+	/**
+	 * Sets the gamemode of all spectators to {@link GameMode#SPECTATOR}.
+	 */
+	public void setSpectatorMode() {
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			if (isCompeting(player)) {
+				continue;
+			}
+			
+			player.setGameMode(GameMode.SPECTATOR);
+		}
+	}
+
+	/**
+	 * Teleports all the spectators to the centre of the arena.
+	 */
+	public void teleportSpectators() {
+		World world = Bukkit.getWorld(plugin.getConfig().getString("world-name"));
+		Location spawn = world.getSpawnLocation();
+
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			if (isCompeting(player)) {
+				continue;
+			}
+
+			player.teleport(spawn);
+		}
 	}
 
 	/**

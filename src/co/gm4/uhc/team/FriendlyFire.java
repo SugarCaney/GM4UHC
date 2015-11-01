@@ -41,8 +41,10 @@ public class FriendlyFire implements Listener {
 		}
 		
 		Player damager = null;
-		if (proj.getShooter() instanceof Player) {
-			damager = (Player)proj.getShooter();
+		if (proj != null) {
+			if (proj.getShooter() instanceof Player) {
+				damager = (Player)proj.getShooter();
+			}
 		}
 		else {
 			if (event.getDamager() instanceof Player) {

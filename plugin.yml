@@ -1,7 +1,7 @@
 name: GM4UHC
 main: co.gm4.uhc.GM4UHC
 authors: [MrSugarCaney]
-version: '0.69'
+version: '0.70'
 description: >
              Gamemode 4 UHC plugin
 commands:

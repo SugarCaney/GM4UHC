@@ -51,6 +51,7 @@ public class TeamListCommand implements CommandExecutor {
 			line.append(" ");
 			line.append(team.getChatColours());
 			line.append("DISPLAY\n");
+			line.append(ChatColor.WHITE);
 			message.append(line);
 		}
 		

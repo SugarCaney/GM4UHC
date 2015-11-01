@@ -34,7 +34,6 @@ import co.gm4.uhc.game.StartCommand;
 import co.gm4.uhc.game.WarnCommand;
 import co.gm4.uhc.setup.SetLobbyCommand;
 import co.gm4.uhc.team.AutoTeamCommand;
-import co.gm4.uhc.team.FriendlyFire;
 import co.gm4.uhc.team.ParseCommand;
 import co.gm4.uhc.team.RemoveCommand;
 import co.gm4.uhc.team.Team;
@@ -158,7 +157,6 @@ public class GM4UHC extends JavaPlugin {
 		PluginManager pm = getServer().getPluginManager();
 		pm.registerEvents(new PotionBanListener(), this);
 		pm.registerEvents(new ChatListener(this), this);
-		pm.registerEvents(new FriendlyFire(this), this);
 		pm.registerEvents(new PlayerJoinListener(this), this);
 		pm.registerEvents(new DeathToSpectator(this), this);
 		pm.registerEvents(new CountdownFreeze(this), this);
@@ -211,10 +209,7 @@ public class GM4UHC extends JavaPlugin {
 
 			if (team == null) {
 				name += colour + player.getName();
-
-				if (player.hasPermission(Permission.MODERATOR)) {
-					name += ChatColor.WHITE + "" + ChatColor.BOLD + " SP";
-				}
+				name += ChatColor.WHITE + "" + ChatColor.BOLD + " SP";
 			}
 			else {
 				name += team.getChatColours() + player.getName();
