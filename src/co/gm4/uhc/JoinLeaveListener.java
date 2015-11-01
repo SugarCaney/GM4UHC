@@ -1,7 +1,10 @@
 package co.gm4.uhc;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -45,6 +48,10 @@ public class JoinLeaveListener implements Listener {
 		else if (!plugin.isOpen() || plugin.getMatch().getState() == MatchState.RUNNING) {
 			player.setGameMode(GameMode.SPECTATOR);
 			player.sendMessage(Broadcast.NOTIFICATION + "You are now spectating.");
+			
+			World world = Bukkit.getWorld(plugin.getConfig().getString("world-name"));
+			Location spawn = world.getSpawnLocation();
+			player.teleport(spawn);
 		}
 		
 		// Teleport to lobby.
@@ -52,6 +59,10 @@ public class JoinLeaveListener implements Listener {
 			player.teleport(plugin.getLobby());
 			player.getInventory().clear();
 			player.setGameMode(GameMode.SURVIVAL);
+			player.setHealth(20);
+			player.setFoodLevel(20);
+			player.setExp(0);
+			player.setLevel(0);
 		}
 	}
 
