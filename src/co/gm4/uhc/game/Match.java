@@ -190,12 +190,13 @@ public class Match {
 		}
 
 		if (timer > startLava) {
-			if ((timer - startLava) % secondsPerLava == 0
-					&& startLava < plugin.getConfig().getInt("lava-max")) {
-				lavaLevel++;
-
-				Bukkit.broadcastMessage(ChatColor.DARK_RED + "" + ChatColor.BOLD + "LAVA "
-						+ ChatColor.GOLD + "The lava has risen to level " + lavaLevel + ".");
+			if ((timer - startLava) % secondsPerLava == 0) {
+				if (lavaLevel < plugin.getConfig().getInt("lava-max")) {
+					lavaLevel++;
+					
+					Bukkit.broadcastMessage(ChatColor.DARK_RED + "" + ChatColor.BOLD + "LAVA "
+							+ ChatColor.GOLD + "The lava has risen to level " + lavaLevel + ".");
+				}
 			}
 
 			for (UUID playerId : players) {
@@ -211,10 +212,10 @@ public class Match {
 				}
 				
 				// Show lava particles.
-				if (loc.getY() - lavaLevel <= 4) {
-					for (double x = loc.getX() - 3; x <= loc.getX() + 3; x++) {
-						for (double z = loc.getY() - 3; z <= loc.getY() + 3; z++) {
-							Location clone = loc.clone().add(x, lavaLevel, z);
+				if (loc.getY() - lavaLevel <= 5) {
+					for (double x = loc.getX() - 5; x <= loc.getX() + 5; x++) {
+						for (double z = loc.getZ() - 5; z <= loc.getZ() + 5; z++) {
+							Location clone = new Location(loc.getWorld(), x, lavaLevel, z);
 							World world = clone.getWorld();
 							world.playEffect(clone, Effect.STEP_SOUND, Material.LAVA.getId());
 						}						
