@@ -13,6 +13,7 @@ lava-time: 900
 lava-max: 70
 offline-time: 450
 warnings: 3
+chunk-loading: false
 chat:
   caps-allowed: 0.3
   caps-ignore-length: 4

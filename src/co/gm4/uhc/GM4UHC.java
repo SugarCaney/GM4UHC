@@ -164,6 +164,10 @@ public class GM4UHC extends JavaPlugin {
 		pm.registerEvents(new DeathHandler(this), this);
 		pm.registerEvents(new JoinLeaveListener(this), this);
 		pm.registerEvents(new SkullLogger(this), this);
+		
+		if (!getConfig().getBoolean("chunk-loading")) {
+			pm.registerEvents(new ChunkListener(), this);
+		}
 	}
 
 	/**
