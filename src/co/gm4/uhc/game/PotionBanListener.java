@@ -6,6 +6,7 @@ import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Ghast;
+import org.bukkit.entity.Witch;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -27,17 +28,26 @@ public class PotionBanListener implements Listener {
 		ran = new Random();
 	}
 
-	// Replace ghast tear by 3 gold ingots.
+	// Replace ghast tear by 3 gold ingots. And also replace glowstone dust dropped
+	// by witches by a golden ingot.
 	@EventHandler
-	public void onGhastDies(EntityDeathEvent event) {
-		if (!(event.getEntity() instanceof Ghast)) {
+	public void whenEntityDies(EntityDeathEvent event) {
+		if (event.getEntity() instanceof Ghast) {
+			boolean removed = event.getDrops().removeIf(is -> is.getType() == Material.GHAST_TEAR);
+
+			event.getDrops().add(new ItemStack(Material.GOLD_INGOT, removed ? 3 : 1));
+			event.getDrops().add(new ItemStack(Material.GOLD_NUGGET, ran.nextInt(4)));
+			
 			return;
 		}
 
-		boolean removed = event.getDrops().removeIf(is -> is.getType() == Material.GHAST_TEAR);
-
-		event.getDrops().add(new ItemStack(Material.GOLD_INGOT, removed ? 3 : 1));
-		event.getDrops().add(new ItemStack(Material.GOLD_NUGGET, ran.nextInt(4)));
+		if (event.getEntity() instanceof Witch) {
+			boolean removed = event.getDrops().removeIf(is -> is.getType() == Material.GLOWSTONE_DUST);
+			
+			if (removed) {
+				event.getDrops().add(new ItemStack(Material.GOLD_INGOT, 1));
+			}
+		}
 	}
 
 	// Prevent glowstone blocks from dropping glowstone dust. It will drop

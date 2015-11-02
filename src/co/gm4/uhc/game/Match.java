@@ -11,6 +11,7 @@ import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Effect;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -129,6 +130,7 @@ public class Match {
 	/**
 	 * Happens everytime a second has passed after the match has started.
 	 */
+	@SuppressWarnings("deprecation")
 	private void tick() {
 		timer += 1;
 
@@ -199,11 +201,24 @@ public class Match {
 			for (UUID playerId : players) {
 				Player player = Bukkit.getPlayer(playerId);
 				Location loc = player.getLocation();
+				
+				// Damage if needed
 				if (loc.getY() <= lavaLevel) {
 					player.setFireTicks(25);
 					player.damage(1);
 					player.sendMessage(ChatColor.DARK_RED + "" + ChatColor.BOLD + "LAVA "
 							+ ChatColor.GOLD + "You are being damaged by rising lava.");
+				}
+				
+				// Show lava particles.
+				if (loc.getY() - lavaLevel <= 4) {
+					for (double x = loc.getX() - 3; x <= loc.getX() + 3; x++) {
+						for (double z = loc.getY() - 3; z <= loc.getY() + 3; z++) {
+							Location clone = loc.clone().add(x, lavaLevel, z);
+							World world = clone.getWorld();
+							world.playEffect(clone, Effect.STEP_SOUND, Material.LAVA.getId());
+						}						
+					}
 				}
 			}
 		}
@@ -221,7 +236,6 @@ public class Match {
 		setupWorld();
 		spreadPlayers();
 		setSpectatorMode();
-		teleportSpectators();
 
 		// Announce countdown.
 		int countdown = plugin.getConfig().getInt("countdown");
@@ -292,6 +306,8 @@ public class Match {
 				players.add(playerId);
 			}
 		}
+		
+		teleportSpectators();
 	}
 
 	/**
