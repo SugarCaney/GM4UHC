@@ -100,7 +100,7 @@ public class Match {
 	/**
 	 * Sets up all the prequisites required for the match.
 	 * <p>
-	 * e.g. setup the world border.
+	 * E.g. setup the world border.
 	 */
 	private void setupWorld() {
 		// Determine world size.
