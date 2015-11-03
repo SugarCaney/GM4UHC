@@ -121,13 +121,18 @@ public class Match {
 
 	/**
 	 * Calculates the size of the arena.
-	 * 
-	 * TODO: world size auto.
 	 */
 	public int getSize() {
-		int teamCount = plugin.getTeamManager().getTeams().size();
-		int teamSpace = plugin.getConfig().getInt("team-plot");
-		return (int)Math.sqrt(teamCount * teamSpace * teamSpace);
+		int worldSize = plugin.getConfig().getInt("world-size");
+		
+		if (worldSize <= 0) {
+			int teamCount = plugin.getTeamManager().getTeams().size();
+			int teamSpace = plugin.getConfig().getInt("team-plot");
+			return (int)Math.sqrt(teamCount * teamSpace * teamSpace);
+		}
+		else {
+			return worldSize;
+		}
 	}
 
 	/**
