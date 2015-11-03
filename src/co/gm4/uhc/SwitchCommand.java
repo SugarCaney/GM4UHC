@@ -1,6 +1,8 @@
 package co.gm4.uhc;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -37,11 +39,12 @@ public class SwitchCommand implements CommandExecutor {
 		String worldName = plugin.getConfig().getString("world-name");
 
 		Player player = (Player)sender;
-		String world = player.getWorld().getName();
+		World world = Bukkit.getWorld(worldName);
 
 		// Tp to world.
-		if (world.equalsIgnoreCase(lobbyName)) {
-			Location loc = plugin.getServer().getWorld(worldName).getSpawnLocation();
+		if (player.getWorld().getName().equalsIgnoreCase(lobbyName)) {
+			double y = world.getHighestBlockAt(0, 0).getY();
+			Location loc = new Location(world, 0, y + 1, 0);
 			player.teleport(loc);
 			player.sendMessage(Broadcast.SUCCESS_PREFIX + "You have been teleported to the arena.");
 		}

@@ -109,7 +109,8 @@ public class Match {
 		// Setup world border.
 		String worldName = plugin.getConfig().getString("world-name");
 		World world = plugin.getServer().getWorld(worldName);
-		Location centre = world.getSpawnLocation();
+		double y = world.getHighestBlockAt(0, 0).getY();
+		Location centre = new Location(world, 0, y + 1, 0);
 		border = world.getWorldBorder();
 		border.setCenter(centre);
 		border.setSize(size);
