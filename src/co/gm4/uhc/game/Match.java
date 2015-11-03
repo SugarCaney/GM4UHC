@@ -202,7 +202,8 @@ public class Match {
 				}
 			}
 
-			for (UUID playerId : players) {
+			for (int i = 0; i < players.size(); i++) {
+				UUID playerId = players.get(i);
 				Player player = Bukkit.getPlayer(playerId);
 				Location loc = player.getLocation();
 				
