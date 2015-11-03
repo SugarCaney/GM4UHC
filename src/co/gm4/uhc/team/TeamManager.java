@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.Vector;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -25,12 +26,12 @@ public class TeamManager {
 	/**
 	 * List of all teams.
 	 */
-	private List<Team> teams = new ArrayList<>();
+	private List<Team> teams = new Vector<>();
 	
 	/**
 	 * List of all removed teams.
 	 */
-	private List<Team> removed = new ArrayList<>();
+	private List<Team> removed = new Vector<>();
 
 	/**
 	 * Removes the given player from their team.

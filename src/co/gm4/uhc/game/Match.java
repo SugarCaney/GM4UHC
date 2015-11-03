@@ -1,12 +1,12 @@
 package co.gm4.uhc.game;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
 import java.util.UUID;
+import java.util.Vector;
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
@@ -41,7 +41,7 @@ public class Match {
 	/**
 	 * A list of all players competing.
 	 */
-	private List<UUID> players = new ArrayList<>();
+	private List<UUID> players = new Vector<>();
 
 	/**
 	 * Tracks how long players have been offline.
@@ -120,6 +120,8 @@ public class Match {
 
 	/**
 	 * Calculates the size of the arena.
+	 * 
+	 * TODO: world size auto.
 	 */
 	public int getSize() {
 		int teamCount = plugin.getTeamManager().getTeams().size();

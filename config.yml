@@ -1,7 +1,7 @@
 team-size: 2
 team-plot: 300
 distance-threshold: 0.75
-world-size: auto
+world-size: -1
 world-name: world
 lobby-name: lobby
 grace-period: 900
@@ -11,7 +11,7 @@ countdown: 120
 shrink-time: 5400
 lava-time: 900
 lava-max: 70
-offline-time: 450
+offline-time: 300
 warnings: 3
 chunk-loading: false
 chat:

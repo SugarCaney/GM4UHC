@@ -3,6 +3,7 @@ package co.gm4.uhc.team;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.Vector;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -36,12 +37,12 @@ public class Team {
 	/**
 	 * All the members of the team.
 	 */
-	private List<UUID> players = new ArrayList<>();
+	private List<UUID> players = new Vector<>();
 
 	/**
 	 * List of all deaths.
 	 */
-	private List<UUID> deaths = new ArrayList<>();
+	private List<UUID> deaths = new Vector<>();
 
 	/**
 	 * The display colour a team has.

@@ -1,8 +1,8 @@
 package co.gm4.uhc.chat;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.Vector;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -21,7 +21,7 @@ public class SilenceCommand implements CommandExecutor {
 	/**
 	 * List of all players that have the chat silenced.
 	 */
-	private List<UUID> silenced = new ArrayList<>();
+	private List<UUID> silenced = new Vector<>();
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {

@@ -1,8 +1,8 @@
 package co.gm4.uhc.chat;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.Vector;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -26,7 +26,7 @@ public class MuteCommand implements CommandExecutor {
 	/**
 	 * List of all players that are muted.
 	 */
-	private List<UUID> mutedPlayers = new ArrayList<>();
+	private List<UUID> mutedPlayers = new Vector<>();
 
 	@SuppressWarnings("deprecation")
 	@Override
