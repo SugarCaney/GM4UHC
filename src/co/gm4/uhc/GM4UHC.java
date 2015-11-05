@@ -90,11 +90,11 @@ public class GM4UHC extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		saveDefaultConfig();
+		loadWorlds();
 
 		chatFilter = new ChatFilter(getConfig());
 		match = new Match(this);
 
-		loadPlayingWorld();
 		registerListeners();
 		registerCommands();
 		registerTasks();
@@ -113,10 +113,10 @@ public class GM4UHC extends JavaPlugin {
 	}
 
 	/**
-	 * Loads the 'normal' or playing world.
+	 * Loads the extra worlds needed.
 	 */
-	private void loadPlayingWorld() {
-		String worldName = getConfig().getString("world-name");
+	private void loadWorlds() {
+		String worldName = getConfig().getString("lobby-name");
 		Bukkit.getServer()
 				.createWorld(new WorldCreator(worldName).environment(World.Environment.NORMAL));
 	}

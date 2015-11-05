@@ -31,11 +31,13 @@ public class ShoutCommand implements CommandExecutor {
 		String message = sb.toString();
 		message = message.replaceAll("&", ChatColor.COLOR_CHAR + "");
 
-		String header = ChatColor.DARK_AQUA + Util.fill('=', 62);
+		String header = ChatColor.DARK_AQUA + Util.fill('-', 15) + "=={  " + ChatColor.WHITE
+				+ "Broadcast" + ChatColor.DARK_AQUA + "  }==" + Util.fill('-', 15);
+		String footer = ChatColor.DARK_AQUA + Util.fill('-', 47);
 
 		Bukkit.broadcastMessage(header);
 		Bukkit.broadcastMessage(ChatColor.AQUA + message);
-		Bukkit.broadcastMessage(header);
+		Bukkit.broadcastMessage(footer);
 
 		return true;
 	}

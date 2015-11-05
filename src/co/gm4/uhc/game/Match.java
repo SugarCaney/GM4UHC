@@ -240,6 +240,7 @@ public class Match {
 	 * When the countdown has ended, {@link Match#starts()} will start.
 	 */
 	public void startCountdown() {
+		
 		// Prepare stuff.
 		state = MatchState.PREPARING;
 		plugin.getServer().getWorld(plugin.getConfig().getString("world-name")).setPVP(false);
