@@ -301,6 +301,10 @@ public class Match {
 		for (Team team : plugin.getTeamManager().getTeams()) {
 			for (UUID playerId : team.getPlayers()) {
 				Player player = Bukkit.getPlayer(playerId);
+				if (player == null) {
+					continue;
+				}
+				
 				player.setHealth(20);
 				player.setFoodLevel(20);
 				player.setSaturation(20);
