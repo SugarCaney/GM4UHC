@@ -2,6 +2,7 @@ package co.gm4.uhc.chat;
 
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 
 /**
@@ -91,12 +92,11 @@ public class ChatFilter {
 		string = string.replaceAll("(uu*)", "u");
 		string = string.replaceAll("(ee*)", "e");
 		
-		System.out.println(string);;
-
 		boolean contains = false;
 		for (String ban : banned) {
 			if (string.contains(ban)) {
 				contains = true;
+				Bukkit.getLogger().info("[FILTER] Conflict found with '" + ban + "'");
 				break;
 			}
 		}
