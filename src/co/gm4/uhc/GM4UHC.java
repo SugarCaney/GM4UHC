@@ -5,7 +5,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -102,7 +101,7 @@ public class GM4UHC extends JavaPlugin {
 
 		setTabNames();
 
-		lobby = (Location)getConfig().get("lobby-location");
+		lobby = Util.loadLocation("lobby", this);
 
 		getLogger().info("Plugin has been enabled!");
 	}
@@ -116,9 +115,23 @@ public class GM4UHC extends JavaPlugin {
 	 * Loads the extra worlds needed.
 	 */
 	private void loadWorlds() {
-		String worldName = getConfig().getString("lobby-name");
-		Bukkit.getServer()
-				.createWorld(new WorldCreator(worldName).environment(World.Environment.NORMAL));
+		String lobbyName = getConfig().getString("lobby-name");
+		String arenaName = getConfig().getString("world-name");
+		getServer().createWorld(new WorldCreator(lobbyName));
+		
+		if (getServer().getWorld(lobbyName) == null) {
+			getLogger().severe("Could not load the lobby world '" + lobbyName + "'");
+		}
+		else {
+			getLogger().info("Loaded lobby '" + lobbyName + "'");
+		}
+		
+		if (getServer().getWorld(arenaName) == null) {
+			getLogger().severe("Could not load the arena world '" + arenaName + "'");
+		}
+		else {
+			getLogger().info("Loaded arena '" + arenaName + "'");
+		}
 	}
 
 	/**

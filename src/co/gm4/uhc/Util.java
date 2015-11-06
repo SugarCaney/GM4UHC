@@ -7,6 +7,8 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.World;
+import org.bukkit.configuration.file.FileConfiguration;
 
 /**
  * Several utility methods.
@@ -14,6 +16,58 @@ import org.bukkit.OfflinePlayer;
  * @author MrSugarCaney
  */
 public class Util {
+
+	/**
+	 * Saves a location to the configuration file.
+	 * 
+	 * @param loc
+	 *            The location to save.
+	 * @param node
+	 *            Where to save the location.
+	 * @param plugin
+	 *            The main plugin instance.
+	 */
+	public static void saveLocation(Location loc, String node, GM4UHC plugin) {
+		FileConfiguration config = plugin.getConfig();
+		config.set(node + ".x", loc.getX());
+		config.set(node + ".y", loc.getY());
+		config.set(node + ".z", loc.getZ());
+		config.set(node + ".pi", loc.getPitch());
+		config.set(node + ".yw", loc.getYaw());
+		config.set(node + ".w", loc.getWorld().getName());
+		plugin.saveConfig();
+	}
+
+	/**
+	 * Deserialises a location from the config file.
+	 * 
+	 * @param node
+	 *            The location of the location in the configuration.
+	 * @param plugin
+	 *            The main plugin instance.
+	 * @return The parsed location. Or <i>null</i> if there was any problem.
+	 */
+	public static Location loadLocation(String node, GM4UHC plugin) {
+		// #YayForDirtyHacksThatWorkRegardlessly
+		try {
+			FileConfiguration config = plugin.getConfig();
+			double x = config.getDouble(node + ".x");
+			double y = config.getDouble(node + ".y");
+			double z = config.getDouble(node + ".z");
+			float pitch = (float)config.getDouble(node + ".pi");
+			float yaw = (float)config.getDouble(node + ".yw");
+			String w = config.getString(node + ".w");
+			World world = plugin.getServer().getWorld(w);
+
+			Location loc = new Location(world, x, y, z);
+			loc.setYaw(yaw);
+			loc.setPitch(pitch);
+			return loc;
+		}
+		catch (Exception e) {
+			return null;
+		}
+	}
 
 	/**
 	 * Calculates the absolute distance between two locations.

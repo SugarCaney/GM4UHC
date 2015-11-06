@@ -50,7 +50,15 @@ public class SwitchCommand implements CommandExecutor {
 		}
 		// Tp to lobby.
 		else {
-			player.teleport(plugin.getLobby());
+			Location lobby = plugin.getLobby();
+			
+			if (lobby != null) {
+				player.teleport(plugin.getLobby());
+			}
+			else {
+				player.teleport(plugin.getServer().getWorld(lobbyName).getSpawnLocation());
+			}
+			
 			player.sendMessage(Broadcast.SUCCESS_PREFIX + "You have been teleported to the lobby.");
 		}
 

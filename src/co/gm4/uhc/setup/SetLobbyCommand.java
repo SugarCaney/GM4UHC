@@ -7,6 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import co.gm4.uhc.GM4UHC;
+import co.gm4.uhc.Util;
 import co.gm4.uhc.chat.Broadcast;
 
 /**
@@ -36,8 +37,7 @@ public class SetLobbyCommand implements CommandExecutor {
 		
 		Location location = ((Player)sender).getLocation();
 		plugin.setLobby(location);
-		plugin.getConfig().set("lobby-location", location);
-		plugin.saveConfig();
+		Util.saveLocation(location, "lobby", plugin);
 
 		return true;
 	}

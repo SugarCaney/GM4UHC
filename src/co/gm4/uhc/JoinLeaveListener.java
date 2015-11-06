@@ -41,22 +41,27 @@ public class JoinLeaveListener implements Listener {
 			if (team.getDeaths().contains(player.getUniqueId())) {
 				player.setGameMode(GameMode.SPECTATOR);
 			}
-			
+
 			String name = team.getChatColours() + player.getName() + ChatColor.YELLOW;
 			event.setJoinMessage(event.getJoinMessage().replace(player.getName(), name));
 		}
 		else if (!plugin.isOpen() || plugin.getMatch().getState() == MatchState.RUNNING) {
 			player.setGameMode(GameMode.SPECTATOR);
 			player.sendMessage(Broadcast.NOTIFICATION + "You are now spectating.");
-			
+
 			World world = Bukkit.getWorld(plugin.getConfig().getString("world-name"));
 			Location spawn = world.getSpawnLocation();
 			player.teleport(spawn);
 		}
-		
+
 		// Teleport to lobby.
 		if (plugin.getMatch().getState() == MatchState.LOBBY) {
-			player.teleport(plugin.getLobby());
+			Location lobby = plugin.getLobby();
+			if (lobby == null) {
+				lobby = plugin.getServer().getWorld(plugin.getConfig().getString("lobby-name"))
+						.getSpawnLocation();
+			}
+			player.teleport(lobby);
 			player.getInventory().clear();
 			player.setGameMode(GameMode.SURVIVAL);
 			player.setHealth(20);
