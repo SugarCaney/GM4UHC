@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 import java.util.Random;
 import java.util.UUID;
 import java.util.Vector;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
@@ -48,12 +49,12 @@ public class Match {
 	 * <p>
 	 * Longer than 5 minutes results into death.
 	 */
-	private Map<UUID, Integer> offline = new HashMap<>();
+	private Map<UUID, Integer> offline = new ConcurrentHashMap<>();
 
 	/**
 	 * Tracks the amount of warnings.
 	 */
-	private Map<UUID, Integer> warnings = new HashMap<>();
+	private Map<UUID, Integer> warnings = new ConcurrentHashMap<>();
 
 	/**
 	 * The state of the match.
