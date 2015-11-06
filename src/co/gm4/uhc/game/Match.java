@@ -510,7 +510,9 @@ public class Match {
 		for (Entry<Team, Location> ent : places.entrySet()) {
 			for (UUID playerId : ent.getKey().getPlayers()) {
 				Player player = Bukkit.getPlayer(playerId);
-				player.teleport(ent.getValue());
+				if (player != null) {
+					player.teleport(ent.getValue());
+				}
 			}
 		}
 	}
