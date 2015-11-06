@@ -34,6 +34,23 @@ public class ChatFilter {
 	 */
 	public boolean containsFoulLanguage(String msg) {
 		String string = msg.toLowerCase();
+		string = string.replace("'", "");
+		string = string.replace("\"", "");
+		string = string.replace(":", "");
+		string = string.replace("/", "");
+		string = string.replace("~", "");
+		string = string.replace("`", "");
+		string = string.replace(";", "");
+		string = string.replace("{", "c");
+		string = string.replace("[", "c");
+		string = string.replace("]", "");
+		string = string.replace("}", "");
+		string = string.replace("?", "");
+		string = string.replace("#", "");
+		string = string.replace(")", "");
+		string = string.replace("*", "");
+		string = string.replace("&", "");
+		string = string.replace("%", "");
 		string = string.replace(" ", "");
 		string = string.replace("_", "");
 		string = string.replace("-", "");
@@ -91,13 +108,15 @@ public class ChatFilter {
 		string = string.replaceAll("(ii*)", "i");
 		string = string.replaceAll("(uu*)", "u");
 		string = string.replaceAll("(ee*)", "e");
-		
+
 		boolean contains = false;
 		for (String ban : banned) {
 			if (string.contains(ban)) {
-				contains = true;
-				Bukkit.getLogger().info("[FILTER] Conflict found with '" + ban + "'");
-				break;
+				if (!msg.contains("isn't") || msg.contains("tit") || msg.contains("ti t")) {
+					contains = true;
+					Bukkit.getLogger().info("[FILTER] Conflict found with '" + ban + "'");
+					break;
+				}
 			}
 		}
 
