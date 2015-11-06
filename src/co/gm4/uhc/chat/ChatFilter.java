@@ -114,6 +114,7 @@ public class ChatFilter {
 			if (string.contains(ban)) {
 				if (!msg.contains("isn't") || msg.contains("tit") || msg.contains("ti t")) {
 					contains = true;
+					Bukkit.getLogger().info("[FILTER] Prevented '" + msg + "' from being said.");
 					Bukkit.getLogger().info("[FILTER] Conflict found with '" + ban + "'");
 					break;
 				}

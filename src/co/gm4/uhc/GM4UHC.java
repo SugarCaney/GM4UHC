@@ -33,6 +33,7 @@ import co.gm4.uhc.game.StartCommand;
 import co.gm4.uhc.game.WarnCommand;
 import co.gm4.uhc.setup.SetLobbyCommand;
 import co.gm4.uhc.team.AutoTeamCommand;
+import co.gm4.uhc.team.LackCommand;
 import co.gm4.uhc.team.ParseCommand;
 import co.gm4.uhc.team.RemoveCommand;
 import co.gm4.uhc.team.Team;
@@ -156,6 +157,7 @@ public class GM4UHC extends JavaPlugin {
 		getCommand("warn").setExecutor(new WarnCommand(this));
 		getCommand("setlobby").setExecutor(new SetLobbyCommand(this));
 		getCommand("switch").setExecutor(new SwitchCommand(this));
+		getCommand("lack").setExecutor(new LackCommand(this));
 
 		Help help = new Help();
 		getCommand("colours").setExecutor(help);

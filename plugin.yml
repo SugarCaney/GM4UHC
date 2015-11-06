@@ -5,6 +5,11 @@ version: '1.2pre'
 description: >
              Gamemode 4 UHC plugin
 commands:
+  lack:
+    description: Shows all the teams that lack players.
+    permission: uhc.mod
+    aliases: [tlack, tnotenough, notenough]
+    usage: /lack
   switch:
     description: Teleport between lobby and world.
     permission: uhc.mod
