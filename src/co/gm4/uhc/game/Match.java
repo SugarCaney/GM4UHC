@@ -240,7 +240,6 @@ public class Match {
 	 * When the countdown has ended, {@link Match#starts()} will start.
 	 */
 	public void startCountdown() {
-		
 		// Prepare stuff.
 		state = MatchState.PREPARING;
 		plugin.getServer().getWorld(plugin.getConfig().getString("world-name")).setPVP(false);
@@ -397,15 +396,15 @@ public class Match {
 	 * Teleports all the spectators to the centre of the arena.
 	 */
 	public void teleportSpectators() {
-		World world = Bukkit.getWorld(plugin.getConfig().getString("world-name"));
-		Location spawn = world.getSpawnLocation();
+		World arena = Bukkit.getWorld(plugin.getConfig().getString("world-name"));
+		Location arenaSpawn = new Location(arena, 0, arena.getHighestBlockYAt(0, 0) + 1, 0);
 
 		for (Player player : Bukkit.getOnlinePlayers()) {
 			if (isCompeting(player)) {
 				continue;
 			}
 
-			player.teleport(spawn);
+			player.teleport(arenaSpawn);
 		}
 	}
 

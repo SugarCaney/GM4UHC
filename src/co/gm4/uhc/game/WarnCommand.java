@@ -76,8 +76,16 @@ public class WarnCommand implements CommandExecutor {
 		player.sendMessage(ChatColor.DARK_RED + "" + ChatColor.BOLD + "WARNING " + warns.get(id)
 				+ "/" + allowedWarnings + ChatColor.RED + " You have been warned by "
 				+ sender.getName() + ": " + reason);
-		sender.sendMessage(Broadcast.SUCCESS_PREFIX + player.getName() + " now has " + warns.get(id)
-				+ " warning" + (warns.get(id) == 1 ? "." : "s."));
+		
+		
+		for (Player mod : Bukkit.getOnlinePlayers()) {
+			if (!mod.hasPermission("uhc.mod")) {
+				continue;
+			}
+			
+			sender.sendMessage(Broadcast.SUCCESS_PREFIX + player.getName() + " now has " + warns.get(id)
+					+ " warning" + (warns.get(id) == 1 ? "." : "s.") + " (Reason: " + reason + ")");
+		}
 
 		plugin.getLogger().info(player.getName() + " has received warning #" + warns.get(id)
 				+ " from " + sender.getName());
