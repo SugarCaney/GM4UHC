@@ -131,6 +131,37 @@ public class Util {
 	}
 
 	/**
+	 * Removes dark magic.
+	 */
+	public static String removeDarkMagic(String msg) {
+		msg = msg.replaceAll("(?i)voldemort", "You-Know-Who");
+		msg = msg.replaceAll("(?i)tom riddle", "You-Know-Who");
+		msg = msg.replaceAll("(?i)tom ridle", "You-Know-Who");
+		msg = msg.replaceAll("(?i)voldmorte", "You-Know-Who");
+		msg = msg.replaceAll("(?i)voldemort", "You-Know-Who");
+		msg = msg.replaceAll("(?i)voldy", "You-Know-Who");
+		msg = msg.replaceAll("(?i)the dark lord", "You-Know-Who");
+		msg = msg.replaceAll("(?i)dark lord", "You-Know-Who");
+		msg = msg.replaceAll(
+				"(?i)he[\\- _\\|\\\\/]*who[\\- _\\|\\\\/]*must[\\- _\\|\\\\/]*not[\\- _\\|\\\\/]*be[\\- _\\|\\\\/]*named",
+				"You-Know-Who");
+		msg = msg.replaceAll("(?i)you[\\- _\\|\\\\/]*know[\\- _\\|\\\\/]*who", "You-Know-Who");
+		msg = msg.replaceAll("(?i)Avada Kedavra", "Unforgivable Curse #1");
+		msg = msg.replaceAll("(?i)Crucio", "Unforgivable Curse #2");
+		msg = msg.replaceAll("(?i)Imperio", "Unforgivable Curse #3");
+
+		if (msg.matches("(?i)Morsmordre")) {
+			msg = "*Tried to summon the dark mark. Luckily our Aurors have been able to stop them.*";
+		}
+		else if (msg.matches("(?i)Sectumsempra")) {
+			msg = "*Tried to cut somebody. Luckily our Aurors have been able to stop them. "
+					+ "We strongly advice to use the Bat-Bogey Hex next time to prevent blood spills.*";
+		}
+
+		return msg;
+	}
+
+	/**
 	 * Converts a collection of players to a readable string.
 	 * <p>
 	 * Each name is seperated by commas.

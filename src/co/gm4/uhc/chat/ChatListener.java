@@ -68,6 +68,8 @@ public class ChatListener implements Listener {
 		else {
 			color = team.getChatColours();
 		}
+		
+		message = Util.removeDarkMagic(message);
 
 		event.setCancelled(true);
 
