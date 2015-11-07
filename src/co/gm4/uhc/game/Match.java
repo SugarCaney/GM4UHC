@@ -43,6 +43,11 @@ public class Match {
 	 * A list of all players competing.
 	 */
 	private List<UUID> players = new Vector<>();
+	
+	/**
+	 * A list of all players who have been teleported to the arena.
+	 */
+	private List<UUID> teleported = new Vector<>();
 
 	/**
 	 * Tracks how long players have been offline.
@@ -516,6 +521,7 @@ public class Match {
 				Player player = Bukkit.getPlayer(playerId);
 				if (player != null) {
 					player.teleport(ent.getValue());
+					teleported.add(playerId);
 				}
 			}
 		}
@@ -572,6 +578,10 @@ public class Match {
 	public boolean isGracePeriod() {
 		int graceTime = plugin.getConfig().getInt("grace-period");
 		return timer < graceTime;
+	}
+	
+	public List<UUID> getTeleported() {
+		return teleported;
 	}
 
 	public Map<UUID, Integer> getWarnings() {

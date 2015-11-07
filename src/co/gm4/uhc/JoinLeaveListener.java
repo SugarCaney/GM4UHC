@@ -1,5 +1,7 @@
 package co.gm4.uhc;
 
+import java.util.UUID;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -44,6 +46,22 @@ public class JoinLeaveListener implements Listener {
 
 			String name = team.getChatColours() + player.getName() + ChatColor.YELLOW;
 			event.setJoinMessage(event.getJoinMessage().replace(player.getName(), name));
+
+			if (!plugin.getMatch().getTeleported().contains(player.getUniqueId())) {
+				plugin.getMatch().getTeleported().add(player.getUniqueId());
+
+				for (UUID id : team.getPlayers()) {
+					Player teamMate = Bukkit.getPlayer(id);
+					if (teamMate == null) {
+						continue;
+					}
+
+					if (!teamMate.equals(player)) {
+						player.teleport(teamMate);
+						break;
+					}
+				}
+			}
 		}
 		else if (!plugin.isOpen() || plugin.getMatch().getState() == MatchState.RUNNING) {
 			player.setGameMode(GameMode.SPECTATOR);
