@@ -43,7 +43,7 @@ public class Match {
 	 * A list of all players competing.
 	 */
 	private List<UUID> players = new Vector<>();
-	
+
 	/**
 	 * A list of all players who have been teleported to the arena.
 	 */
@@ -130,7 +130,7 @@ public class Match {
 	 */
 	public int getSize() {
 		int worldSize = plugin.getConfig().getInt("world-size");
-		
+
 		if (worldSize <= 0) {
 			int teamCount = plugin.getTeamManager().getTeams().size();
 			int teamSpace = plugin.getConfig().getInt("team-plot");
@@ -184,10 +184,13 @@ public class Match {
 				Team team = plugin.getTeamManager().getTeamByUUID(playerId);
 
 				if (team != null) {
-					team.die(playerId, plugin);
-					Bukkit.broadcastMessage(team.getChatColours() + player.getName()
-							+ ChatColor.YELLOW + " has lost due to offline time.");
-					offline.remove(playerId);
+					if (!team.getDeaths().contains(playerId)) {
+						team.die(playerId, plugin);
+
+						Bukkit.broadcastMessage(team.getChatColours() + player.getName()
+								+ ChatColor.YELLOW + " has lost due to offline time.");
+						offline.remove(playerId);
+					}
 				}
 			}
 		}
@@ -207,7 +210,7 @@ public class Match {
 			if ((timer - startLava) % secondsPerLava == 0) {
 				if (lavaLevel < plugin.getConfig().getInt("lava-max")) {
 					lavaLevel++;
-					
+
 					Bukkit.broadcastMessage(ChatColor.DARK_RED + "" + ChatColor.BOLD + "LAVA "
 							+ ChatColor.GOLD + "The lava has risen to level " + lavaLevel + ".");
 				}
@@ -217,7 +220,7 @@ public class Match {
 				UUID playerId = players.get(i);
 				Player player = Bukkit.getPlayer(playerId);
 				Location loc = player.getLocation();
-				
+
 				// Damage if needed
 				if (loc.getY() <= lavaLevel) {
 					player.setFireTicks(25);
@@ -225,7 +228,7 @@ public class Match {
 					player.sendMessage(ChatColor.DARK_RED + "" + ChatColor.BOLD + "LAVA "
 							+ ChatColor.GOLD + "You are being damaged by rising lava.");
 				}
-				
+
 				// Show lava particles.
 				if (loc.getY() - lavaLevel <= 5) {
 					for (double x = loc.getX() - 5; x <= loc.getX() + 5; x++) {
@@ -233,7 +236,7 @@ public class Match {
 							Location clone = new Location(loc.getWorld(), x, lavaLevel, z);
 							World world = clone.getWorld();
 							world.playEffect(clone, Effect.STEP_SOUND, Material.LAVA.getId());
-						}						
+						}
 					}
 				}
 			}
@@ -309,7 +312,7 @@ public class Match {
 				if (player == null) {
 					continue;
 				}
-				
+
 				player.setHealth(20);
 				player.setFoodLevel(20);
 				player.setSaturation(20);
@@ -326,7 +329,7 @@ public class Match {
 				players.add(playerId);
 			}
 		}
-		
+
 		teleportSpectators();
 	}
 
@@ -393,7 +396,7 @@ public class Match {
 			if (isCompeting(player)) {
 				continue;
 			}
-			
+
 			player.setGameMode(GameMode.SPECTATOR);
 		}
 	}
@@ -579,7 +582,7 @@ public class Match {
 		int graceTime = plugin.getConfig().getInt("grace-period");
 		return timer < graceTime;
 	}
-	
+
 	public List<UUID> getTeleported() {
 		return teleported;
 	}
